@@ -1,5 +1,7 @@
 import React from "react";
 
+import { toCurrency } from "../../utils/currencyUtils";
+
 import BasicModal from "../../components/basicComponents/BasicModal";
 import BasicTableList from "../../components/basicComponents/BasicTableList";
 
@@ -47,10 +49,34 @@ const InventoryContainerList = ({
 }) => {
   const classes = useStyles();
 
-  // const getTotalItemCost = (item) => {
-  //   return item;
-  // };
+  const getTotalItemCost = (container) => {
+    //number of parts in the container
+    const numberOfParts = container.partsList.length;
 
+    //returns a array of partCosts
+    const partCostArray = container.partsList.map((part, index) => {
+      return part.partCost;
+    });
+
+    //returns a array of partQuantities
+    const partQuantityArray = container.partsList.map((part, index) => {
+      return part.quantity;
+    });
+
+    //returns a array of all partsCost * quantities
+    const costTotal = partCostArray.map((cost, index) => {
+      return cost * partQuantityArray[index];
+    });
+
+    //sum all array elements in costTotal
+    const totals = costTotal.reduce(function (a, b) {
+      return a + b;
+    }, 0);
+
+    return totals;
+  };
+
+  //TODO:
   // const getLastInventoryDate = (container) => {
   //   return new Date()
   // }
@@ -90,7 +116,9 @@ const InventoryContainerList = ({
               <StyledTableCell align="center">
                 {container.partsList.length}
               </StyledTableCell>
-              <StyledTableCell align="left">$0.00</StyledTableCell>
+              <StyledTableCell align="left">
+                {toCurrency(getTotalItemCost(container) / 100)}
+              </StyledTableCell>
               <StyledTableCell align="left">Never</StyledTableCell>
             </StyledTableRow>
           ))}
