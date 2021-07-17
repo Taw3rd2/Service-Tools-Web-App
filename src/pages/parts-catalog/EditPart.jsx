@@ -297,7 +297,7 @@ const EditPart = ({
               </Typography>
             </Grid>
             <Grid item xs={6}>
-              <Typography variant="body1" gutterBottom>
+              <Typography variant="body1" align="center" gutterBottom>
                 <strong>Suggested On Hand Part Quantities</strong>
               </Typography>
             </Grid>
