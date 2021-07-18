@@ -6,7 +6,6 @@ import { selectIsPartsCatalogLoaded, selectPartsCatalogList } from '../../redux/
 import { selectIsTabsLoaded, selectTabsList } from '../../redux/tabs/tab.selectors'
 import { selectIsContainerLoaded, selectInventoryContainersList } from '../../redux/inventoryContainers/inventoryContainers.selectors'
 
-//add components here
 import PartsCatalogList from './PartsCatalogList'
 import AddPart from './AddPart'
 import BasicDeleteModal from '../../components/basicComponents/BasicDeleteModal'
@@ -157,13 +156,13 @@ const a11yProps = (index) => {
     setDeleteCrossReferenceModalOpen(false)
   }
 
-    //tabs
-    const [tabValue, setTabValue] = useState(0);
-    const handleChangeTab = (event, newTabValue) => {
-      setTabValue(newTabValue);
-    };
+  //tabs
+  const [tabValue, setTabValue] = useState(0);
+  const handleChangeTab = (event, newTabValue) => {
+    setTabValue(newTabValue);
+  };
 
-      //storage units list
+  //storage units list
   const [isInventoryContainerModalOpen, setInventoryContainerModalOpen] = useState(false)
   const openInventoryContainerModal = () => {
     setInventoryContainerModalOpen(true)
@@ -172,13 +171,22 @@ const a11yProps = (index) => {
     setInventoryContainerModalOpen(false)
   }
 
-  // add storage units
+  //add storage units
   const [isAddInventoryContainerModalOpen, setAddInventoryContainerModalOpen] = useState(false)
   const openAddInventoryContainerModal = () => {
     setAddInventoryContainerModalOpen(true)
   }
   const closeAddInventoryContainerModal = () => {
     setAddInventoryContainerModalOpen(false)
+  }
+
+  //edit storage units
+  const [isEditInventoryContainerModalOpen, setEditInventoryContainerModalOpen] = useState(false)
+  const openEditInventoryContainerModal = () => {
+    setEditInventoryContainerModalOpen(true)
+  }
+  const closeEditInventoryContainerModal = () => {
+    setEditInventoryContainerModalOpen(false)
   }
 
   return (
@@ -291,6 +299,7 @@ const a11yProps = (index) => {
           closeInventoryContainerModal={closeInventoryContainerModal}
           openAddInventoryContainerModal={openAddInventoryContainerModal}
           inventoryContainers={inventoryContainers}
+          openEditInventoryContainerModal={openEditInventoryContainerModal}
         />
       )}
       {isAddInventoryContainerModalOpen && (
