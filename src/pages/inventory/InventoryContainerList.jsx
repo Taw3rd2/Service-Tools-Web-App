@@ -1,6 +1,7 @@
 import React from "react";
 
 import { toCurrency } from "../../utils/currencyUtils";
+import { getFormattedDate } from "../../utils/dateUtils"
 
 import BasicModal from "../../components/basicComponents/BasicModal";
 import BasicTableList from "../../components/basicComponents/BasicTableList";
@@ -76,10 +77,13 @@ const InventoryContainerList = ({
     return totals;
   };
 
-  //TODO:
-  // const getLastInventoryDate = (container) => {
-  //   return new Date()
-  // }
+  const getLastInventoryDate = (container) => {
+    if (container.lastInventoried) {
+      return getFormattedDate(container.lastInventoried)
+    } else {
+      return "never"
+    }
+  }
 
   const tableHead = (
     <>
@@ -119,7 +123,9 @@ const InventoryContainerList = ({
               <StyledTableCell align="left">
                 {toCurrency(getTotalItemCost(container) / 100)}
               </StyledTableCell>
-              <StyledTableCell align="left">Never</StyledTableCell>
+              <StyledTableCell align="left">
+                {getLastInventoryDate(container)}
+              </StyledTableCell>
             </StyledTableRow>
           ))}
     </>
