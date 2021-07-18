@@ -1,7 +1,7 @@
 import React from "react";
 
 import { toCurrency } from "../../utils/currencyUtils";
-import { getFormattedDate } from "../../utils/dateUtils"
+import { getFormattedDate } from "../../utils/dateUtils";
 
 import BasicModal from "../../components/basicComponents/BasicModal";
 import BasicTableList from "../../components/basicComponents/BasicTableList";
@@ -47,6 +47,7 @@ const InventoryContainerList = ({
   closeInventoryContainerModal,
   openAddInventoryContainerModal,
   inventoryContainers,
+  openEditInventoryContainerModal,
 }) => {
   const classes = useStyles();
 
@@ -79,11 +80,11 @@ const InventoryContainerList = ({
 
   const getLastInventoryDate = (container) => {
     if (container.lastInventoried) {
-      return getFormattedDate(container.lastInventoried)
+      return getFormattedDate(container.lastInventoried);
     } else {
-      return "never"
+      return "never";
     }
-  }
+  };
 
   const tableHead = (
     <>
@@ -110,6 +111,7 @@ const InventoryContainerList = ({
           .map((container, index) => (
             <StyledTableRow
               key={container.id}
+              onClick={() => openEditInventoryContainerModal(container)}
               style={
                 index % 2 ? { background: "#d9d9d9" } : { background: "white" }
               }

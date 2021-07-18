@@ -16,6 +16,7 @@ import EditCrossReference from './EditCrossReference';
 import DeleteCrossReference from './DeleteCrossReference';
 import InventoryContainerList from '../inventory/InventoryContainerList'
 import AddInventoryContainer from '../inventory/AddInventoryContainer'
+import EditInventoryContainer from '../inventory/EditInventoryContainer'
 
 import {
     addPartsCatalogStart,
@@ -181,8 +182,10 @@ const a11yProps = (index) => {
   }
 
   //edit storage units
+  const [inventoryContainerSelected, setInventoryContainerSelected] = useState({})
   const [isEditInventoryContainerModalOpen, setEditInventoryContainerModalOpen] = useState(false)
-  const openEditInventoryContainerModal = () => {
+  const openEditInventoryContainerModal = (container) => {
+    setInventoryContainerSelected(container)
     setEditInventoryContainerModalOpen(true)
   }
   const closeEditInventoryContainerModal = () => {
@@ -307,6 +310,13 @@ const a11yProps = (index) => {
           isAddInventoryContainerModalOpen={isAddInventoryContainerModalOpen}
           closeAddInventoryContainerModal={closeAddInventoryContainerModal}
           addInventoryContainerStart={addInventoryContainerStart}
+        />
+      )}
+      {isEditInventoryContainerModalOpen && (
+        <EditInventoryContainer 
+          isEditInventoryContainerModalOpen={isEditInventoryContainerModalOpen}
+          closeEditInventoryContainerModal={closeEditInventoryContainerModal}
+          inventoryContainerSelected={inventoryContainerSelected}
         />
       )}
       </div>
