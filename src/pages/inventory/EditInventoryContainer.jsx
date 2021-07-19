@@ -9,7 +9,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import CloseIcon from "@material-ui/icons/Close";
-//import InputAdornment from "@material-ui/core/InputAdornment";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     position: "absolute",
-    width: 400,
+    width: 450,
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
@@ -39,6 +39,11 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
     marginLeft: theme.spacing(1),
   },
+  buttonRed: {
+    marginTop: theme.spacing(2),
+    marginLeft: theme.spacing(1),
+    backgroundColor: "red",
+  },
 }));
 
 const EditInventoryContainer = ({
@@ -46,6 +51,7 @@ const EditInventoryContainer = ({
   closeEditInventoryContainerModal,
   updateInventoryContainerStart,
   inventoryContainerSelected,
+  openDeleteInventoryContainerModal,
 }) => {
   const classes = useStyles();
 
@@ -56,8 +62,12 @@ const EditInventoryContainer = ({
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const updatedInventoryContainer = {};
-    console.log("updatedInventoryContainer", updatedInventoryContainer);
+    const updatedInventoryContainer = {
+      ...inventoryContainerSelected,
+      containerName,
+    };
+    updateInventoryContainerStart(updatedInventoryContainer);
+    closeEditInventoryContainerModal();
   };
 
   return (
@@ -93,9 +103,20 @@ const EditInventoryContainer = ({
             <Grid
               container
               alignItems="flex-start"
-              justify="flex-end"
+              justifyContent="flex-end"
               direction="row"
             >
+              <Button
+                type="button"
+                size="large"
+                color="primary"
+                variant="contained"
+                className={classes.buttonRed}
+                startIcon={<DeleteIcon />}
+                onClick={() => openDeleteInventoryContainerModal()}
+              >
+                Delete
+              </Button>
               <Button
                 type="submit"
                 size="large"

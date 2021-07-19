@@ -22,6 +22,7 @@ import { InventoryContainersActionTypes } from './inventoryContainers.types'
 export function* addContainerAsync({ 
     payload: {
         containerName,
+        lastInventoried,
         partsList,
         partsNeeded,
     }, }) {
@@ -32,6 +33,7 @@ export function* addContainerAsync({
         yield inventoryContainerRef
             .set({
                 containerName,
+                lastInventoried,
                 partsList,
                 partsNeeded,
             })
@@ -71,6 +73,7 @@ export function* updateContainerAsync({
     payload: {
         containerName,
         id,
+        lastInventoried,
         partsList,
         partsNeeded,
     }, 
@@ -81,6 +84,7 @@ export function* updateContainerAsync({
         .doc(id)
         .update({
             containerName,
+            lastInventoried,
             partsList,
             partsNeeded,
         })
@@ -88,6 +92,7 @@ export function* updateContainerAsync({
         yield put(
             updateInventoryContainerSuccess({
                 containerName,
+                lastInventoried,
                 partsList,
                 partsNeeded,
             })

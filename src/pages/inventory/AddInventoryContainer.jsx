@@ -25,9 +25,11 @@ const AddInventoryContainer = ({
   const [containerName, setContainerName] = useState("");
 
   const onSubmit = () => {
+    const lastInventoried = null;
     const partsList = [];
     const partsNeeded = [];
     const newInventoryContainer = {
+      lastInventoried,
       partsList,
       partsNeeded,
       containerName,

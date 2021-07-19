@@ -17,6 +17,7 @@ import DeleteCrossReference from './DeleteCrossReference';
 import InventoryContainerList from '../inventory/InventoryContainerList'
 import AddInventoryContainer from '../inventory/AddInventoryContainer'
 import EditInventoryContainer from '../inventory/EditInventoryContainer'
+import DeleteInventoryContainer from '../inventory/DeleteInventoryContainer'
 
 import {
     addPartsCatalogStart,
@@ -74,6 +75,8 @@ const a11yProps = (index) => {
       isContainersLoaded,
       inventoryContainers,
       addInventoryContainerStart,
+      deleteInventoryContainerStart,
+      updateInventoryContainerStart,
       addPartsStart,
       deletePartsStart,
       updatePartsStart,
@@ -163,7 +166,7 @@ const a11yProps = (index) => {
     setTabValue(newTabValue);
   };
 
-  //storage units list
+  //inventory container list
   const [isInventoryContainerModalOpen, setInventoryContainerModalOpen] = useState(false)
   const openInventoryContainerModal = () => {
     setInventoryContainerModalOpen(true)
@@ -172,7 +175,7 @@ const a11yProps = (index) => {
     setInventoryContainerModalOpen(false)
   }
 
-  //add storage units
+  //add inventory containers
   const [isAddInventoryContainerModalOpen, setAddInventoryContainerModalOpen] = useState(false)
   const openAddInventoryContainerModal = () => {
     setAddInventoryContainerModalOpen(true)
@@ -181,7 +184,7 @@ const a11yProps = (index) => {
     setAddInventoryContainerModalOpen(false)
   }
 
-  //edit storage units
+  //edit inventory containers
   const [inventoryContainerSelected, setInventoryContainerSelected] = useState({})
   const [isEditInventoryContainerModalOpen, setEditInventoryContainerModalOpen] = useState(false)
   const openEditInventoryContainerModal = (container) => {
@@ -190,6 +193,16 @@ const a11yProps = (index) => {
   }
   const closeEditInventoryContainerModal = () => {
     setEditInventoryContainerModalOpen(false)
+  }
+
+  //delete inventory containers
+  const [isDeleteInventoryContainerModalOpen, setDeleteInventoryContainerModalOpen] = useState(false)
+  // modalTitleItemToDelete, setModalTitleItemToDelete is defined above
+  const openDeleteInventoryContainerModal = () => {
+    setDeleteInventoryContainerModalOpen(true)
+  }
+  const closeDeleteInventoryContainerModal = () => {
+    setDeleteInventoryContainerModalOpen(false)
   }
 
   return (
@@ -317,6 +330,17 @@ const a11yProps = (index) => {
           isEditInventoryContainerModalOpen={isEditInventoryContainerModalOpen}
           closeEditInventoryContainerModal={closeEditInventoryContainerModal}
           inventoryContainerSelected={inventoryContainerSelected}
+          updateInventoryContainerStart={updateInventoryContainerStart}
+          openDeleteInventoryContainerModal={openDeleteInventoryContainerModal}
+        />
+      )}
+      {isDeleteInventoryContainerModalOpen && (
+        <DeleteInventoryContainer
+          isDeleteInventoryContainerModalOpen={isDeleteInventoryContainerModalOpen}
+          closeDeleteInventoryContainerModal={closeDeleteInventoryContainerModal}
+          closeEditInventoryContainerModal={closeEditInventoryContainerModal}
+          deleteInventoryContainerStart={deleteInventoryContainerStart}
+          inventoryContainerSelected={inventoryContainerSelected}
         />
       )}
       </div>
@@ -336,10 +360,11 @@ const a11yProps = (index) => {
   });
 
   const mapDispatchToProps = (dispatch) => ({
-    //inventory
+    //partsCatalog
     addPartsStart: (parts) => dispatch(addPartsCatalogStart(parts)),
     deletePartsStart: (parts) => dispatch(deletePartsCatalogStart(parts)),
     updatePartsStart: (parts) => dispatch(updatePartsCatalogStart(parts)),
+    //inventoryContainers
     addInventoryContainerStart: (container) => dispatch(addInventoryContainerStart(container)),
     deleteInventoryContainerStart: (container) => dispatch(deleteInventoryContainerStart(container)),
     updateInventoryContainerStart: (container) => dispatch(updateInventoryContainerStart(container)),
