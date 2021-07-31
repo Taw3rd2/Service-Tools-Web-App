@@ -166,24 +166,6 @@ const EditPart = ({
   const crossReference = partSelected.crossReference
     ? partSelected.crossReference
     : [];
-  const [installVanQuantity, setInstallVanQuantity] = useState(
-    partSelected.installVanQuantity
-  );
-  const [isInstallInventory, setIsInstallInventory] = useState(
-    partSelected.isInstallInventory
-  );
-  const [isMaintenanceInventory, setIsMaintenanceInventory] = useState(
-    partSelected.isMaintenanceInventory
-  );
-  const [isServiceInventory, setIsServiceInventory] = useState(
-    partSelected.isServiceInventory
-  );
-  const [isStockRoomInventory, setIsStockRoomInventory] = useState(
-    partSelected.isStockRoomInventory
-  );
-  const [maintenanceVanQuantity, setMaintenanceVanQuantity] = useState(
-    partSelected.maintenanceVanQuantity
-  );
   const [partCost, setPartCost] = useState(
     onBaseCostLoad(partSelected.partCost)
   );
@@ -198,12 +180,6 @@ const EditPart = ({
   const [partNotes, setPartNotes] = useState(partSelected.partNotes);
   const [partNumber, setPartNumber] = useState(partSelected.partNumber);
   const [partVendor, setPartVendor] = useState(partSelected.partVendor);
-  const [serviceVanQuantity, setServiceVanQuantity] = useState(
-    partSelected.serviceVanQuantity
-  );
-  const [stockRoomQuantity, setStockRoomQuantity] = useState(
-    partSelected.stockRoomQuantity
-  );
   const [url, setUrl] = useState(partSelected.url ? partSelected.url : "");
 
   const stringToNumber = (string) => {
@@ -213,34 +189,10 @@ const EditPart = ({
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const serviceInventoryQuantity = parseFloat(serviceVanQuantity);
-    const maintenanceInventoryQuantity = parseFloat(maintenanceVanQuantity);
-    const installInventoryQuantity = parseFloat(installVanQuantity);
-    const stockRoomInventoryQuantity = parseFloat(stockRoomQuantity);
-
-    serviceInventoryQuantity > 0
-      ? setIsServiceInventory(true)
-      : setIsServiceInventory(false);
-    maintenanceInventoryQuantity > 0
-      ? setIsMaintenanceInventory(true)
-      : setIsMaintenanceInventory(false);
-    installInventoryQuantity > 0
-      ? setIsInstallInventory(true)
-      : setIsInstallInventory(false);
-    stockRoomInventoryQuantity > 0
-      ? setIsStockRoomInventory(true)
-      : setIsInstallInventory(false);
-
     const updatedPart = {
       id,
       category,
       crossReference,
-      installVanQuantity: installInventoryQuantity,
-      isInstallInventory,
-      isMaintenanceInventory,
-      isServiceInventory,
-      isStockRoomInventory,
-      maintenanceVanQuantity: maintenanceInventoryQuantity,
       partCost: stringToNumber(partCost),
       partDataDate: new Date().toLocaleString(),
       partDataServicer,
@@ -249,8 +201,6 @@ const EditPart = ({
       partNotes,
       partNumber,
       partVendor,
-      serviceVanQuantity: serviceInventoryQuantity,
-      stockRoomQuantity: stockRoomInventoryQuantity,
       url,
     };
     console.log(updatedPart);

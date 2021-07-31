@@ -12,6 +12,7 @@ const inventoryContainersReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 inventoryContainers: [...state.inventoryContainers, action.payload],
+                errorMessage: undefined,
             }
         case InventoryContainersActionTypes.FETCH_INVENTORY_CONTAINERS_START:
             return {
@@ -23,6 +24,7 @@ const inventoryContainersReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 isFetching: false,
                 inventoryContainers: action.payload,
+                errorMessage: undefined,
             }
         case InventoryContainersActionTypes.UPDATE_INVENTORY_CONTAINERS_SUCCESS:
             return {
@@ -32,17 +34,21 @@ const inventoryContainersReducer = (state = INITIAL_STATE, action) => {
                         return {
                             ...container,
                             containerName: action.payload.containerName,
+                            id: action.payload.id,
+                            lastInventoried: action.payload.lastInventoried,
                             partsList: action.payload.partsList,
                             partsNeeded: action.payload.partsNeeded,
                         }
                     }
                     return container;
                 }),
+                errorMessage: undefined,
             }
         case InventoryContainersActionTypes.DELETE_INVENTORY_CONTAINERS_SUCCESS:
             return {
                 ...state,
                 inventoryContainers: state.inventoryContainers.filter((container) => container.id !== action.payload.id),
+                errorMessage: undefined,
             }
         case InventoryContainersActionTypes.ADD_INVENTORY_CONTAINERS_FAILURE:
         case InventoryContainersActionTypes.FETCH_INVENTORY_CONTAINERS_FAILURE:

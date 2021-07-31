@@ -8,9 +8,11 @@ import BasicTableList from "../../components/basicComponents/BasicTableList";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import FormatListNumberedIcon from "@material-ui/icons/FormatListNumbered";
 import StorageIcon from "@material-ui/icons/Storage";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
+import Typography from "@material-ui/core/Typography";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -52,24 +54,18 @@ const InventoryContainerList = ({
   const classes = useStyles();
 
   const getTotalItemCost = (container) => {
-    //number of parts in the container
-    const numberOfParts = container.partsList.length;
-
     //returns a array of partCosts
     const partCostArray = container.partsList.map((part, index) => {
       return part.partCost;
     });
-
     //returns a array of partQuantities
     const partQuantityArray = container.partsList.map((part, index) => {
       return part.quantity;
     });
-
     //returns a array of all partsCost * quantities
     const costTotal = partCostArray.map((cost, index) => {
       return cost * partQuantityArray[index];
     });
-
     //sum all array elements in costTotal
     const totals = costTotal.reduce(function (a, b) {
       return a + b;
@@ -134,24 +130,43 @@ const InventoryContainerList = ({
   );
 
   const additionalButtons = (
-    <Button
-      size="large"
-      color="primary"
-      variant="contained"
-      className={classes.button}
-      startIcon={<StorageIcon />}
-      onClick={() => openAddInventoryContainerModal()}
-    >
-      Add Containers
-    </Button>
+    <>
+      <Button
+        size="large"
+        color="primary"
+        variant="contained"
+        className={classes.button}
+        startIcon={<FormatListNumberedIcon />}
+        onClick={() => openAddInventoryContainerModal()}
+      >
+        Parts Needed
+      </Button>
+      <Button
+        size="large"
+        color="primary"
+        variant="contained"
+        className={classes.button}
+        startIcon={<StorageIcon />}
+        onClick={() => openAddInventoryContainerModal()}
+      >
+        Add Containers
+      </Button>
+    </>
   );
 
   const modalBody = (
-    <BasicTableList
-      tableHead={tableHead}
-      tableBody={tableBody}
-      height="400px"
-    />
+    <>
+      <BasicTableList
+        tableHead={tableHead}
+        tableBody={tableBody}
+        height="400px"
+      />
+      <Typography variant="h5" gutterBottom>
+        {" "}
+        {/* style this */}
+        Inventoried Total: $0.00
+      </Typography>
+    </>
   );
 
   return (

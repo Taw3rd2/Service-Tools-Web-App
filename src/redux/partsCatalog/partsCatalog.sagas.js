@@ -23,12 +23,6 @@ export function* addPartAsync({
     payload: {
         category,
         crossReference,
-        installVanQuantity,
-        isInstallInventory,
-        isMaintenanceInventory,
-        isServiceInventory,
-        isStockRoomInventory,
-        maintenanceVanQuantity,
         partCost,
         partDataDate,
         partDataServicer,
@@ -37,8 +31,6 @@ export function* addPartAsync({
         partNotes,
         partNumber,
         partVendor,
-        serviceVanQuantity,
-        stockRoomQuantity,
         url,
     }, }) {
     try {
@@ -49,12 +41,6 @@ export function* addPartAsync({
             .set({
                 category,
                 crossReference,
-                installVanQuantity,
-                isInstallInventory,
-                isMaintenanceInventory,
-                isServiceInventory,
-                isStockRoomInventory,
-                maintenanceVanQuantity,
                 partCost,
                 partDataDate,
                 partDataServicer,
@@ -63,8 +49,6 @@ export function* addPartAsync({
                 partNotes,
                 partNumber,
                 partVendor,
-                serviceVanQuantity,
-                stockRoomQuantity,
                 url,
             })
             .then(() => console.log("Added", partNumber));
@@ -104,12 +88,6 @@ export function* updatePartAsync({
         category,
         crossReference,
         id,
-        installVanQuantity,
-        isInstallInventory,
-        isMaintenanceInventory,
-        isServiceInventory,
-        isStockRoomInventory,
-        maintenanceVanQuantity,
         partCost,
         partDataDate,
         partDataServicer,
@@ -118,8 +96,6 @@ export function* updatePartAsync({
         partNotes,
         partNumber,
         partVendor,
-        serviceVanQuantity,
-        stockRoomQuantity,
         url,
     }, 
 }) {
@@ -130,12 +106,6 @@ export function* updatePartAsync({
         .update({
             category,
             crossReference,
-            installVanQuantity,
-            isInstallInventory,
-            isMaintenanceInventory,
-            isServiceInventory,
-            isStockRoomInventory,
-            maintenanceVanQuantity,
             partCost,
             partDataDate,
             partDataServicer,
@@ -144,8 +114,6 @@ export function* updatePartAsync({
             partNotes,
             partNumber,
             partVendor,
-            serviceVanQuantity,
-            stockRoomQuantity,
             url,
         })
         .then(() => console.log("Updated ", partNumber));
@@ -153,12 +121,6 @@ export function* updatePartAsync({
             updatePartsCatalogSuccess({
                 category,
                 crossReference,
-                installVanQuantity,
-                isInstallInventory,
-                isMaintenanceInventory,
-                isServiceInventory,
-                isStockRoomInventory,
-                maintenanceVanQuantity,
                 partCost,
                 partDataDate,
                 partDataServicer,
@@ -167,8 +129,6 @@ export function* updatePartAsync({
                 partNotes,
                 partNumber,
                 partVendor,
-                serviceVanQuantity,
-                stockRoomQuantity,
                 url,
             })
         );

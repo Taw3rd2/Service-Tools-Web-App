@@ -66,12 +66,6 @@ const AddPart = ({
 
   const [category, setCategory] = useState("Service");
   const crossReference = [];
-  const installVanQuantity = 0;
-  const isInstallInventory = false;
-  const isMaintenanceInventory = false;
-  const isServiceInventory = false;
-  const isStockRoomInventory = false;
-  const maintenanceVanQuantity = 0;
   const [partCost, setPartCost] = useState(0.0);
   const partDataDate = new Date().toLocaleString();
   const [partDataServicer, setPartDataServicer] = useState("");
@@ -80,8 +74,6 @@ const AddPart = ({
   const [partNotes, setPartNotes] = useState("");
   const [partNumber, setPartNumber] = useState("");
   const [partVendor, setPartVendor] = useState("Carrier");
-  const serviceVanQuantity = 0;
-  const stockRoomQuantity = 0;
   const url = "";
 
   const onSubmit = (e) => {
@@ -89,12 +81,6 @@ const AddPart = ({
     const newPart = {
       category,
       crossReference,
-      installVanQuantity,
-      isInstallInventory,
-      isMaintenanceInventory,
-      isServiceInventory,
-      isStockRoomInventory,
-      maintenanceVanQuantity,
       partCost,
       partDataDate,
       partDataServicer,
@@ -103,8 +89,6 @@ const AddPart = ({
       partNotes,
       partNumber,
       partVendor,
-      serviceVanQuantity,
-      stockRoomQuantity,
       url,
     };
     console.log(newPart);

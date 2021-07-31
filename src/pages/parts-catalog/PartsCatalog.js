@@ -97,6 +97,11 @@ const a11yProps = (index) => {
      setPartsCatalogList(filteredParts)
   }
 
+  const clearSearchQuery = () => {
+    setQuery("")
+    setPartsCatalogList(partsCatalog.partsCatalog)
+  }
+
   //add part
   const [isAddPartModalOpen, setAddPartModalOpen] = useState(false);
   const openAddPartModal = () => {
@@ -227,7 +232,12 @@ const a11yProps = (index) => {
         </Tabs>
       </AppBar>
       <TabPanel value={tabValue} index={0}>
-          <BasicSearchBar value={query} setValue={partsCatalogSearch} searchLabel="Part Numbers"/>
+        <BasicSearchBar 
+          value={query} 
+          setValue={partsCatalogSearch} 
+          searchLabel="Part Numbers" 
+          clearSearchQuery={clearSearchQuery}
+        />
         <PartsCatalogList
           partsCatalog={partsCatalogList}
           category={"All"}
@@ -241,14 +251,19 @@ const a11yProps = (index) => {
             .sort((a, b) => a.name.localeCompare(b.name))
             .map((tab, index) => (
                 <TabPanel key={tab.id} value={tabValue} index={index + 1}>
-                  <BasicSearchBar value={query} setValue={partsCatalogSearch} searchLabel="Part Numbers"/>
-                    <PartsCatalogList 
-                        partsCatalog={partsCatalogList}
-                        category={tab.name}
-                        openAddPartModal={openAddPartModal}
-                        openEditPartModal={openEditPartModal}
-                        openStorageListModal={openInventoryContainerModal}
-                    />
+                  <BasicSearchBar 
+                    value={query} 
+                    setValue={partsCatalogSearch} 
+                    searchLabel="Part Numbers"
+                    clearSearchQuery={clearSearchQuery}
+                  />
+                  <PartsCatalogList 
+                      partsCatalog={partsCatalogList}
+                      category={tab.name}
+                      openAddPartModal={openAddPartModal}
+                      openEditPartModal={openEditPartModal}
+                      openInventoryContainerModal={openInventoryContainerModal}
+                  />
                 </TabPanel>
             ))
       }

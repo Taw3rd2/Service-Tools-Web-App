@@ -33,12 +33,6 @@ const partsCatalogReducer = (state = INITIAL_STATE, action) => {
                             ...part,
                             category: action.payload.category,
                             crossReference: action.payload.crossReference,
-                            installVanQuantity: action.payload.installVanQuantity,
-                            isInstallInventory: action.payload.isInstallInventory,
-                            isMaintenanceInventory: action.payload.isMaintenanceInventory,
-                            isServiceInventory: action.payload.isServiceInventory,
-                            isStockRoomInventory: action.payload.isStockRoomInventory,
-                            maintenanceVanQuantity: action.payload.maintenanceVanQuantity,
                             partCost: action.payload.partCost,
                             partDataDate: action.payload.partDataDate,
                             partDataServicer: action.payload.partDataServicer,
@@ -47,8 +41,6 @@ const partsCatalogReducer = (state = INITIAL_STATE, action) => {
                             partNotes: action.payload.partNotes,
                             partNumber: action.payload.partNumber,
                             partVendor: action.payload.partVendor,
-                            serviceVanQuantity: action.payload.serviceVanQuantity,
-                            stockRoomQuantity: action.payload.stockRoomQuantity,
                             url: action.payload.url,
                         }
                     }
@@ -67,7 +59,7 @@ const partsCatalogReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 isFetching: false,
-                errorMessage: action.payload,
+                errorMessage: action.payload ? action.payload : undefined,
             }
         default:
             return state;
