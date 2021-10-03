@@ -17,7 +17,7 @@ import tabReducer from './tabs/tab.reducer';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['clients', 'dispatchers', 'workList', 'payments', 'technicians', 'events', 'labels', 'inventoryContainers', 'partsCatalog', 'tabs']
+  whitelist: ['clients', 'events', 'partsCatalog', 'technicians']
 }
 
 const rootReducer = combineReducers({

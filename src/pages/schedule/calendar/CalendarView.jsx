@@ -157,9 +157,6 @@ const CalendarView = ({
       let dayLabels = getFilteredLabels();
 
       dayLabels.forEach((label) => {
-        console.log("label: ", label)
-        //labelDate is a string...
-        //parse it to a date before gettTime()
         if (label.labelDate.getTime() === date.getTime()) {
           cityLabels.push(label.locationName.toString());
         }
