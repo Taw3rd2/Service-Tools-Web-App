@@ -88,7 +88,7 @@ const NavBar = ({ currentUser, signOutStart }) => {
                 onClick={() => history.push("/PartsCatalog")}
                 color="inherit"
               >
-                Parts Catalog
+                Inventory
               </Link>
               <Link
                 className={classes.link}
