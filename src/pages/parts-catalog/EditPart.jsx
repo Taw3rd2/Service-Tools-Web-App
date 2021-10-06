@@ -128,7 +128,7 @@ const useStyles = makeStyles((theme) => ({
   responsiveImage: {
     width: "100%",
     objectFit: "contain",
-    maxHeight: "240px",
+    maxHeight: "185px",
     margin: theme.spacing(1),
   },
   select: {
@@ -461,7 +461,7 @@ const EditPart = ({
                     <label>
                       <img
                         src={uploadPicture}
-                        alt="upload"
+                        alt="default"
                         style={{
                           width: "100%",
                           objectFit: "contain",
@@ -474,25 +474,52 @@ const EditPart = ({
                         style={{ display: "none" }}
                       />
                     </label>
-                    <div className="output">
-                      {error && <div className="error">{error}</div>}
-                      {file && <div>{file.name}</div>}
-                      {file && (
-                        <ProgressBar
-                          file={file}
-                          setFile={setFile}
-                          setUrl={setUrl}
-                          partSelected={partSelected}
-                        />
-                      )}
-                    </div>
+                    {error ||
+                      (file && (
+                        <div className="output">
+                          {error && <div className="error">{error}</div>}
+                          {file && <div>{file.name}</div>}
+                          {file && (
+                            <ProgressBar
+                              file={file}
+                              setFile={setFile}
+                              setUrl={setUrl}
+                              partSelected={partSelected}
+                            />
+                          )}
+                        </div>
+                      ))}
                   </div>
                 ) : (
-                  <img
-                    src={url}
-                    alt="uploaded pic"
-                    className={classes.responsiveImage}
-                  />
+                  <div>
+                    <div>
+                      <img
+                        src={url}
+                        alt="uploaded part"
+                        className={classes.responsiveImage}
+                      />
+                      <input
+                        type="file"
+                        onChange={pictureChangeHandler}
+                        style={{ display: "none" }}
+                      />
+                    </div>
+                    {error ||
+                      (file && (
+                        <div className="output">
+                          {error && <div className="error">{error}</div>}
+                          {file && <div>{file.name}</div>}
+                          {file && (
+                            <ProgressBar
+                              file={file}
+                              setFile={setFile}
+                              setUrl={setUrl}
+                              partSelected={partSelected}
+                            />
+                          )}
+                        </div>
+                      ))}
+                  </div>
                 )}
               </Grid>
             </Grid>

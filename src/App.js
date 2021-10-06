@@ -9,10 +9,11 @@ import { createStructuredSelector } from "reselect";
 
 import Navbar from './components/navbar/Navbar'
 import SignInPage from "./pages/Sign-In/SignIn.page";
+import PartsQuote from "./pages/parts-quote/PartsQuote.page"
+//const PartsQuote = lazy(() => import("./pages/parts-quote/PartsQuote.page"))
 
 const HomePage = lazy(() => import("./pages/homepage/HomePage.page"));
 const PartsCatalog = lazy(() => import("./pages/parts-catalog/PartsCatalog"))
-const PartsQuote = lazy(() => import("./pages/parts-quote/PartsQuote.page"))
 const PrintDailySlips = lazy(() => import("./pages/schedule/print/PrintDailySlips"))
 const PrintOneSlip = lazy(() => import("./pages/schedule/print/PrintOneSlip"))
 const Schedule = lazy(() => import("./pages/schedule/Schedule.page"));

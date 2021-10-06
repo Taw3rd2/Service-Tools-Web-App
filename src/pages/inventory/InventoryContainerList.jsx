@@ -82,6 +82,14 @@ const InventoryContainerList = ({
     }
   };
 
+  const getContainerItemTotals = (containers) => {
+    return containers
+      .map((container) => getTotalItemCost(container))
+      .reduce((sum, i) => sum + i, 0);
+    //map through the containers and return the getTotalitemCost for each
+    //return the sum of all containers
+  };
+
   const tableHead = (
     <>
       <StyledTableCell component="th" align="left">
@@ -162,9 +170,13 @@ const InventoryContainerList = ({
         height="400px"
       />
       <Typography variant="h5" gutterBottom>
-        {" "}
         {/* style this */}
-        Inventoried Total: $0.00
+        Inventoried Total:
+        {inventoryContainers &&
+          toCurrency(
+            getContainerItemTotals(inventoryContainers.inventoryContainers) /
+              100
+          )}
       </Typography>
     </>
   );
