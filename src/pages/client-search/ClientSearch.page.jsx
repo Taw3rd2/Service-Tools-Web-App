@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { selectClientList } from "../../redux/clients/clients.selectors";
+import CustomerExport from "../../components/exportToExcel/CustomerExport";
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Button from "@material-ui/core/Button";
@@ -110,6 +111,7 @@ const ClientSearch = React.memo(
           >
             Add New Customer
           </Button>
+          <CustomerExport clients={clients} />
         </Grid>
       </Grid>
     );
