@@ -1,12 +1,9 @@
 import React from "react";
-import ReactExport from "react-export-excel";
+import ExcelJs from "exceljs";
+import { getFormattedDateAndTime } from "../../utils/dateUtils";
 
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-
-const ExcelFile = ReactExport.ExcelFile;
-const ExcelSheet = ReactExport.ExcelSheet;
-const ExcelColumn = ReactExport.ExcelColumn;
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -18,35 +15,81 @@ const useStyles = makeStyles((theme) => ({
 const CustomerExport = ({ clients }) => {
   const classes = useStyles();
 
+  const exportToExcel = (data) => {
+    let sheetName = "Customers.xlsx";
+
+    let workbook = new ExcelJs.Workbook();
+    let sheet = workbook.addWorksheet(sheetName, {
+      views: [{ showGridLines: true }],
+    });
+    //let sheet2 = workbook.addWorksheet("Second sheet", { views: [{ showGridLines: false }] });
+
+    sheet.headerFooter.firstHeader = "Customers";
+
+    sheet.columns = [
+      { header: "Data ID", key: "id", width: 25 },
+      { header: "Last Name", key: "lastname", width: 25 },
+      { header: "First Name", key: "firstname", width: 15 },
+      { header: "Address", key: "street", width: 25 },
+      { header: "City", key: "city", width: 15 },
+      { header: "State", key: "state", width: 5 },
+      { header: "Zip Code", key: "zip", width: 7 },
+      { header: "Phone Name", key: "phoneName", width: 20 },
+      { header: "Phone Number", key: "phone", width: 14 },
+      { header: "Alt Phone Name", key: "altPhoneName", width: 20 },
+      { header: "Alt Phone Number", key: "altphone", width: 14 },
+      { header: "Other Phone Name", key: "otherPhoneName", width: 20 },
+      { header: "Other Phone Number", key: "otherPhone", width: 14 },
+      { header: "Balance", key: "balance", width: 10 },
+    ];
+
+    data.forEach((singleData) => {
+      sheet.addRow(singleData);
+    });
+
+    sheet.duplicateRow(1, 2, true);
+    sheet.getRow(1).values = [
+      `Customers as of: ${getFormattedDateAndTime(new Date())}`,
+    ];
+    sheet.getRow(2).values = [];
+
+    sheet.getRow("1").font = {
+      size: 14,
+      bold: true,
+    };
+
+    sheet.getRow("3").font = {
+      size: 14,
+      bold: true,
+    };
+
+    const writeFile = (fileName, content) => {
+      const link = document.createElement("a");
+      const blob = new Blob([content], {
+        type: "application/vnd.ms-excel;charset=utf-8;",
+      });
+      link.download = fileName;
+      link.href = URL.createObjectURL(blob);
+      link.click();
+    };
+
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      writeFile(sheetName, buffer);
+    });
+  };
+
   return (
-    <ExcelFile
-      element={
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          fullWidth
-        >
-          Export Customers To Excel
-        </Button>
-      }
-      filename="Customers"
+    <Button
+      color="primary"
+      variant="contained"
+      className={classes.button}
+      fullWidth
+      onClick={() => {
+        exportToExcel(clients.clients);
+      }}
     >
-      <ExcelSheet data={clients.clients} name="Customers">
-        <ExcelColumn label="First Name" value="firstname" widthCh="20" />
-        <ExcelColumn label="Last Name or Business" value="lastname" />
-        <ExcelColumn label="Address" value="street" />
-        <ExcelColumn label="City" value="city" />
-        <ExcelColumn label="State" value="state" />
-        <ExcelColumn label="Zip Code" value="zip" />
-        <ExcelColumn label="Phone Name" value="phoneName" />
-        <ExcelColumn label="Phone Number" value="phone" />
-        <ExcelColumn label="Alt Phone Name" value="altPhoneName" />
-        <ExcelColumn label="Alt Phone Number" value="altphone" />
-        <ExcelColumn label="Other Phone Name" value="otherPhoneName" />
-        <ExcelColumn label="Other Phone Number" value="otherPhone" />
-      </ExcelSheet>
-    </ExcelFile>
+      Export Customers to Excel
+    </Button>
   );
 };
 
