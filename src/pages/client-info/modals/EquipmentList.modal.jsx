@@ -7,6 +7,8 @@ import {
   getUnixFromDate,
 } from "../../../utils/dateUtils";
 
+import EquipmentExport from "../../../components/exportToExcel/EquipmentExport";
+
 import Modal from "@material-ui/core/Modal";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -282,6 +284,7 @@ const EquipmentList = ({
             justify="flex-end"
             direction="row"
           >
+            <EquipmentExport client={client} equipment={equipment} />
             <Button
               className={classes.button}
               onClick={() => openAddNewEquipmentModal()}
