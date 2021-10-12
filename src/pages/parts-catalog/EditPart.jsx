@@ -492,7 +492,7 @@ const EditPart = ({
                   </div>
                 ) : (
                   <div>
-                    <div>
+                    <label>
                       <img
                         src={url}
                         alt="uploaded part"
@@ -503,7 +503,7 @@ const EditPart = ({
                         onChange={pictureChangeHandler}
                         style={{ display: "none" }}
                       />
-                    </div>
+                    </label>
                     {error ||
                       (file && (
                         <div className="output">
