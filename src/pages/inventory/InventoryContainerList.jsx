@@ -171,7 +171,7 @@ const InventoryContainerList = ({
       />
       <Typography variant="h5" gutterBottom>
         {/* style this */}
-        Inventoried Total:
+        Total of Recommended Parts:
         {inventoryContainers &&
           toCurrency(
             getContainerItemTotals(inventoryContainers.inventoryContainers) /
