@@ -91,7 +91,9 @@ const a11yProps = (index) => {
 
   const partsCatalogSearch = async (queryInput) => {
      const filteredParts = partsCatalog.partsCatalog.filter(part => {
-       return part.partNumber.toLowerCase().includes(queryInput.toLowerCase())
+       //console.log(part)
+       return part.partNumber.toLowerCase().includes(queryInput.toLowerCase()) || 
+              part.partDescription.toLowerCase().includes(queryInput.toLowerCase()) 
      })
      setQuery(queryInput)
      setPartsCatalogList(filteredParts)
