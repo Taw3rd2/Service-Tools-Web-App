@@ -3,6 +3,7 @@ import React from "react";
 import { toMarkUp, toCurrency } from "../../utils/currencyUtils";
 
 import BasicTableList from "../../components/basicComponents/BasicTableList";
+import PartsExport from "../../components/exportToExcel/PartsExport";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
@@ -10,6 +11,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import StorageIcon from "@material-ui/icons/Storage";
+import GetAppIcon from "@material-ui/icons/GetApp";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -38,6 +40,12 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginTop: theme.spacing(2),
     marginLeft: theme.spacing(1),
+  },
+  greenButton: {
+    marginTop: theme.spacing(2),
+    marginLeft: theme.spacing(1),
+    backgroundColor: "green",
+    color: "white",
   },
 }));
 
@@ -132,6 +140,17 @@ const PartsCatalogList = ({
   const additionalButtons = (
     <>
       <Button
+        type="button"
+        size="large"
+        color="primary"
+        variant="contained"
+        className={classes.button}
+        startIcon={<GetAppIcon />}
+      >
+        Future Import from Excel
+      </Button>
+      <PartsExport parts={partsCatalog} />
+      <Button
         onClick={() => openInventoryContainerModal()}
         type="button"
         size="large"
@@ -144,9 +163,8 @@ const PartsCatalogList = ({
       </Button>
       <Button
         onClick={() => openAddPartModal()}
-        className={classes.button}
+        className={classes.greenButton}
         variant="contained"
-        color="primary"
         size="large"
         startIcon={<AddIcon />}
       >
