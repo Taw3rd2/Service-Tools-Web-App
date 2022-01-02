@@ -230,7 +230,7 @@ const EquipmentList = ({
       BackdropProps={{ timeout: 500 }}
     >
       <Fade in={isEquipmentListModalOpen}>
-        <Paper className={classes.root}>
+        <Paper className={classes.root} variant="outlined">
           <Typography variant="h5" gutterBottom className={classes.title}>
             Equipment List
           </Typography>

@@ -191,9 +191,10 @@ const WarrantyList = ({
       hideBackdrop={true}
       BackdropComponent={Backdrop}
       BackdropProps={{ timeout: 500 }}
+      variant="outlined"
     >
       <Fade in={isWarrantyListModalOpen}>
-        <Paper className={classes.root}>
+        <Paper className={classes.root} variant="outlined">
           <Typography variant="h5" gutterBottom className={classes.title}>
             Warranty Manager
           </Typography>
