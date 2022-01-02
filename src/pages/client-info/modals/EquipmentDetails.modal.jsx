@@ -16,6 +16,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
+import { getDateFromString } from "../../../utils/dateUtils";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -96,28 +97,88 @@ const EquipmentDetails = ({
   );
 
   const onSubmitEquipmentUpdates = () => {
-    const equipmentUpdates = {
+    // put together the updates in a new object,
+    // include the warranty info if present
+    const newUnit = {
+      customerId: equipmentSelected.customerId,
       equipmentBrand,
       equipmentBtu,
+      equipmentContract: equipmentSelected.equipmentContract,
       equipmentEff,
       equipmentFuel,
+      equipmentLabor: equipmentSelected.equipmentLabor
+        ? equipmentSelected.equipmentLabor
+        : "",
       equipmentModel,
       equipmentName,
       equipmentNotes,
       equipmentSerial,
       equipmentVoltage,
+      equipmentWarranty: equipmentSelected.equipmentWarranty
+        ? equipmentSelected.equipmentWarranty
+        : "",
+      key: equipmentName,
+      laborWarranty: equipmentSelected.laborWarranty
+        ? equipmentSelected.laborWarranty
+        : "",
+      warranty: {},
     };
-    firebase
-      .firestore()
-      .collection("customers")
-      .doc(`${equipmentSelected.customerId}`)
-      .collection("Equipment")
-      .doc(`${equipmentSelected.equipmentName}`)
-      .update(equipmentUpdates)
-      .then(() => {
-        newUpdateEquipmentSuccessIndicator();
-        closeEquipmentDetailsModal();
-      });
+    if (equipmentSelected.warranty.equipment) {
+      newUnit.warranty.equipment = equipmentName;
+      newUnit.warranty.equipmentBrand = equipmentBrand;
+      newUnit.warranty.equipmentModel = equipmentModel;
+      newUnit.warranty.equipmentName = equipmentName;
+      newUnit.warranty.equipmentSerial = equipmentSerial;
+      newUnit.warranty.jobNumber = equipmentSelected.warranty.jobNumber;
+      newUnit.warranty.key = equipmentName;
+      newUnit.warranty.laborExpirationDate = getDateFromString(
+        equipmentSelected.warranty.laborExpirationDate
+      );
+      newUnit.warranty.partsExpirationDate = getDateFromString(
+        equipmentSelected.warranty.partsExpirationDate
+      );
+      newUnit.warranty.startDate = getDateFromString(
+        equipmentSelected.warranty.startDate
+      );
+    }
+
+    if (equipmentSelected.equipmentName === newUnit.equipmentName) {
+      console.log("The equipmentName matches and will update normally");
+      firebase
+        .firestore()
+        .collection("customers")
+        .doc(`${equipmentSelected.customerId}`)
+        .collection("Equipment")
+        .doc(`${equipmentSelected.equipmentName}`)
+        .update(newUnit)
+        .then(() => {
+          newUpdateEquipmentSuccessIndicator();
+          closeEquipmentDetailsModal();
+        });
+    } else {
+      console.log(
+        "The equipmentName has been changed, delete the old equipment, and add new"
+      );
+      firebase
+        .firestore()
+        .collection("customers")
+        .doc(`${equipmentSelected.customerId}`)
+        .collection("Equipment")
+        .doc(`${equipmentSelected.equipmentName}`)
+        .delete()
+        .then(() => {
+          firebase
+            .firestore()
+            .collection("customers")
+            .doc(`${equipmentSelected.customerId}`)
+            .collection("Equipment")
+            .doc(`${equipmentName}`)
+            .set(newUnit)
+            .then(() => {
+              closeEquipmentDetailsModal();
+            });
+        });
+    }
   };
 
   const routeToPartsQuoteCreator = () => {
@@ -162,7 +223,7 @@ const EquipmentDetails = ({
       BackdropProps={{ timeout: 500 }}
     >
       <Fade in={isEquipmentDetailsModalOpen}>
-        <Card className={classes.root}>
+        <Card className={classes.root} variant="outlined">
           <CardHeader
             title={`${equipmentSelected.equipmentName} Details`}
             className={classes.teal}
