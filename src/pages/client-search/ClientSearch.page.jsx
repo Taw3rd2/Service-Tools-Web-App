@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { selectClientList } from "../../redux/clients/clients.selectors";
@@ -6,7 +6,11 @@ import CustomerExport from "../../components/exportToExcel/CustomerExport";
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Button from "@material-ui/core/Button";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import AddIcon from "@material-ui/icons/Add";
@@ -56,6 +60,11 @@ const ClientSearch = React.memo(
       };
     });
 
+    const [selectedSearchValue, setSelectedSearchvalue] = useState("lastname");
+    const handleSearchChange = (event) => {
+      setSelectedSearchvalue(event.target.value);
+    };
+
     return (
       <Grid container spacing={1}>
         <Grid item xs={6}>
@@ -63,42 +72,144 @@ const ClientSearch = React.memo(
         </Grid>
         <Grid item xs={6} />
         <Grid item xs={6}>
-          <Autocomplete
-            id="combo-box-demo"
-            style={{ margin: "8px" }}
-            classes={{
-              listbox: classes.listbox,
-              option: classes.option,
-            }}
-            options={groupedCustomers.sort(
-              (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
-            )}
-            groupBy={(clients) => clients.firstLetter}
-            getOptionLabel={(option) => option.lastname}
-            autoSelect
-            onChange={(event, value) => handleClientSelected(value)}
-            getOptionSelected={(option, value) =>
-              option.lastname === value.lastname
-            }
-            disableClearable={true}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Search last Names"
-                variant="outlined"
+          <FormControl component="fieldset">
+            <RadioGroup
+              row
+              araia-label="position"
+              name="position"
+              defaultValue="lastname"
+              onChange={handleSearchChange}
+            >
+              <FormControlLabel
+                value="lastname"
+                control={<Radio color="primary" />}
+                label="Last Name"
+                labelPlacement="top"
               />
-            )}
-            renderOption={(option) => (
-              <div className={classes.option}>
-                <Typography noWrap>
-                  {option.lastname} {option.firstname}
-                </Typography>
-                <Typography noWrap className={classes.optionItemThree}>
-                  {option.city}
-                </Typography>
-              </div>
-            )}
-          />
+              <FormControlLabel
+                value="street"
+                control={<Radio color="primary" />}
+                label="Address"
+                labelPlacement="top"
+              />
+              <FormControlLabel
+                value="city"
+                control={<Radio color="primary" />}
+                label="City"
+                labelPlacement="top"
+              />
+            </RadioGroup>
+          </FormControl>
+          {selectedSearchValue === "lastname" && (
+            <Autocomplete
+              id="combo-box-demo"
+              style={{ margin: "8px" }}
+              classes={{
+                listbox: classes.listbox,
+                option: classes.option,
+              }}
+              options={groupedCustomers.sort(
+                (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
+              )}
+              groupBy={(clients) => clients.firstLetter}
+              getOptionLabel={(option) => option.lastname}
+              autoSelect
+              onChange={(event, value) => handleClientSelected(value)}
+              getOptionSelected={(option, value) =>
+                option.lastname === value.lastname
+              }
+              disableClearable={true}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Search Last Names"
+                  variant="outlined"
+                />
+              )}
+              renderOption={(option) => (
+                <div className={classes.option}>
+                  <Typography noWrap>
+                    {option.lastname} {option.firstname}
+                  </Typography>
+                  <Typography noWrap className={classes.optionItemThree}>
+                    {option.city}
+                  </Typography>
+                </div>
+              )}
+            />
+          )}
+          {selectedSearchValue === "street" && (
+            <Autocomplete
+              id="combo-box-demo"
+              style={{ margin: "8px" }}
+              classes={{
+                listbox: classes.listbox,
+                option: classes.option,
+              }}
+              options={groupedCustomers.sort(
+                (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
+              )}
+              groupBy={(clients) => clients.firstLetter}
+              getOptionLabel={(option) => option.street}
+              autoSelect
+              onChange={(event, value) => handleClientSelected(value)}
+              getOptionSelected={(option, value) =>
+                option.lastname === value.lastname
+              }
+              disableClearable={true}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Search Street Address"
+                  variant="outlined"
+                />
+              )}
+              renderOption={(option) => (
+                <div className={classes.option}>
+                  <Typography noWrap>
+                    {option.lastname} {option.firstname}
+                  </Typography>
+                  <Typography noWrap className={classes.optionItemThree}>
+                    {option.city}
+                  </Typography>
+                </div>
+              )}
+            />
+          )}
+          {selectedSearchValue === "city" && (
+            <Autocomplete
+              id="combo-box-demo"
+              style={{ margin: "8px" }}
+              classes={{
+                listbox: classes.listbox,
+                option: classes.option,
+              }}
+              options={groupedCustomers.sort(
+                (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
+              )}
+              groupBy={(clients) => clients.firstLetter}
+              getOptionLabel={(option) => option.city}
+              autoSelect
+              onChange={(event, value) => handleClientSelected(value)}
+              getOptionSelected={(option, value) =>
+                option.lastname === value.lastname
+              }
+              disableClearable={true}
+              renderInput={(params) => (
+                <TextField {...params} label="Search City" variant="outlined" />
+              )}
+              renderOption={(option) => (
+                <div className={classes.option}>
+                  <Typography noWrap>
+                    {option.lastname} {option.firstname}
+                  </Typography>
+                  <Typography noWrap className={classes.optionItemThree}>
+                    {option.city}
+                  </Typography>
+                </div>
+              )}
+            />
+          )}
         </Grid>
         <Grid item xs={6}>
           <Button
