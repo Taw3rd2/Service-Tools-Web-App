@@ -18,6 +18,20 @@ import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+
+  contentSpacing: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    textAlign: "center",
+  },
+
+  border: {
+    border: "1px solid black",
+  },
+
   listbox: {
     height: 380,
     boxSizing: "border-box",
@@ -66,166 +80,177 @@ const ClientSearch = React.memo(
     };
 
     return (
-      <Grid container spacing={1}>
-        <Grid item xs={6}>
-          <h2 className={classes.button}>{clients.clients.length} Customers</h2>
+      <div className={classes.root}>
+        <Grid container justifyContent="center" spacing={1}>
+          <Grid item xs={12}>
+            <h1 className={classes.contentSpacing}>
+              {clients.clients.length} Customers
+            </h1>
+          </Grid>
         </Grid>
-        <Grid item xs={6} />
-        <Grid item xs={6}>
-          <FormControl component="fieldset">
-            <RadioGroup
-              row
-              araia-label="position"
-              name="position"
-              defaultValue="lastname"
-              onChange={handleSearchChange}
+        <Grid container justifyContent="center" spacing={1}>
+          <Grid item xs={6}>
+            <div className={classes.contentSpacing}>
+              <FormControl component="fieldset">
+                <RadioGroup
+                  row
+                  aria-label="position"
+                  name="position"
+                  defaultValue="lastname"
+                  onChange={handleSearchChange}
+                >
+                  <FormControlLabel
+                    value="lastname"
+                    control={<Radio color="primary" />}
+                    label="Last Name"
+                    labelPlacement="top"
+                  />
+                  <FormControlLabel
+                    value="street"
+                    control={<Radio color="primary" />}
+                    label="Address"
+                    labelPlacement="top"
+                  />
+                  <FormControlLabel
+                    value="city"
+                    control={<Radio color="primary" />}
+                    label="City"
+                    labelPlacement="top"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </div>
+            {selectedSearchValue === "lastname" && (
+              <Autocomplete
+                id="combo-box-demo"
+                style={{ margin: "8px" }}
+                classes={{
+                  listbox: classes.listbox,
+                  option: classes.option,
+                }}
+                options={groupedCustomers.sort(
+                  (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
+                )}
+                groupBy={(clients) => clients.firstLetter}
+                getOptionLabel={(option) => option.lastname}
+                autoSelect
+                onChange={(event, value) => handleClientSelected(value)}
+                getOptionSelected={(option, value) =>
+                  option.lastname === value.lastname
+                }
+                disableClearable={true}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Search Last Names or Business Names"
+                    variant="outlined"
+                  />
+                )}
+                renderOption={(option) => (
+                  <div className={classes.option}>
+                    <Typography noWrap>
+                      {option.lastname} {option.firstname}
+                    </Typography>
+                    <Typography noWrap className={classes.optionItemThree}>
+                      {option.city}
+                    </Typography>
+                  </div>
+                )}
+              />
+            )}
+            {selectedSearchValue === "street" && (
+              <Autocomplete
+                id="combo-box-demo"
+                style={{ margin: "8px" }}
+                classes={{
+                  listbox: classes.listbox,
+                  option: classes.option,
+                }}
+                options={groupedCustomers.sort(
+                  (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
+                )}
+                groupBy={(clients) => clients.firstLetter}
+                getOptionLabel={(option) => option.street}
+                autoSelect
+                onChange={(event, value) => handleClientSelected(value)}
+                getOptionSelected={(option, value) =>
+                  option.lastname === value.lastname
+                }
+                disableClearable={true}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Search Street Address's"
+                    variant="outlined"
+                  />
+                )}
+                renderOption={(option) => (
+                  <div className={classes.option}>
+                    <Typography noWrap>
+                      {option.lastname} {option.firstname}
+                    </Typography>
+                    <Typography noWrap className={classes.optionItemThree}>
+                      {option.city}
+                    </Typography>
+                  </div>
+                )}
+              />
+            )}
+            {selectedSearchValue === "city" && (
+              <Autocomplete
+                id="combo-box-demo"
+                style={{ margin: "8px" }}
+                classes={{
+                  listbox: classes.listbox,
+                  option: classes.option,
+                }}
+                options={groupedCustomers.sort(
+                  (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
+                )}
+                groupBy={(clients) => clients.firstLetter}
+                getOptionLabel={(option) => option.city}
+                autoSelect
+                onChange={(event, value) => handleClientSelected(value)}
+                getOptionSelected={(option, value) =>
+                  option.lastname === value.lastname
+                }
+                disableClearable={true}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Search City's"
+                    variant="outlined"
+                  />
+                )}
+                renderOption={(option) => (
+                  <div className={classes.option}>
+                    <Typography noWrap>
+                      {option.lastname} {option.firstname}
+                    </Typography>
+                    <Typography noWrap className={classes.optionItemThree}>
+                      {option.city}
+                    </Typography>
+                  </div>
+                )}
+              />
+            )}
+          </Grid>
+          <Grid item xs={6}>
+            <Button
+              className={classes.button}
+              color="primary"
+              variant="contained"
+              onClick={() => openAddClientModal()}
+              startIcon={<AddIcon />}
+              fullWidth
+              size="large"
             >
-              <FormControlLabel
-                value="lastname"
-                control={<Radio color="primary" />}
-                label="Last Name"
-                labelPlacement="top"
-              />
-              <FormControlLabel
-                value="street"
-                control={<Radio color="primary" />}
-                label="Address"
-                labelPlacement="top"
-              />
-              <FormControlLabel
-                value="city"
-                control={<Radio color="primary" />}
-                label="City"
-                labelPlacement="top"
-              />
-            </RadioGroup>
-          </FormControl>
-          {selectedSearchValue === "lastname" && (
-            <Autocomplete
-              id="combo-box-demo"
-              style={{ margin: "8px" }}
-              classes={{
-                listbox: classes.listbox,
-                option: classes.option,
-              }}
-              options={groupedCustomers.sort(
-                (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
-              )}
-              groupBy={(clients) => clients.firstLetter}
-              getOptionLabel={(option) => option.lastname}
-              autoSelect
-              onChange={(event, value) => handleClientSelected(value)}
-              getOptionSelected={(option, value) =>
-                option.lastname === value.lastname
-              }
-              disableClearable={true}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Search Last Names"
-                  variant="outlined"
-                />
-              )}
-              renderOption={(option) => (
-                <div className={classes.option}>
-                  <Typography noWrap>
-                    {option.lastname} {option.firstname}
-                  </Typography>
-                  <Typography noWrap className={classes.optionItemThree}>
-                    {option.city}
-                  </Typography>
-                </div>
-              )}
-            />
-          )}
-          {selectedSearchValue === "street" && (
-            <Autocomplete
-              id="combo-box-demo"
-              style={{ margin: "8px" }}
-              classes={{
-                listbox: classes.listbox,
-                option: classes.option,
-              }}
-              options={groupedCustomers.sort(
-                (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
-              )}
-              groupBy={(clients) => clients.firstLetter}
-              getOptionLabel={(option) => option.street}
-              autoSelect
-              onChange={(event, value) => handleClientSelected(value)}
-              getOptionSelected={(option, value) =>
-                option.lastname === value.lastname
-              }
-              disableClearable={true}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Search Street Address"
-                  variant="outlined"
-                />
-              )}
-              renderOption={(option) => (
-                <div className={classes.option}>
-                  <Typography noWrap>
-                    {option.lastname} {option.firstname}
-                  </Typography>
-                  <Typography noWrap className={classes.optionItemThree}>
-                    {option.city}
-                  </Typography>
-                </div>
-              )}
-            />
-          )}
-          {selectedSearchValue === "city" && (
-            <Autocomplete
-              id="combo-box-demo"
-              style={{ margin: "8px" }}
-              classes={{
-                listbox: classes.listbox,
-                option: classes.option,
-              }}
-              options={groupedCustomers.sort(
-                (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
-              )}
-              groupBy={(clients) => clients.firstLetter}
-              getOptionLabel={(option) => option.city}
-              autoSelect
-              onChange={(event, value) => handleClientSelected(value)}
-              getOptionSelected={(option, value) =>
-                option.lastname === value.lastname
-              }
-              disableClearable={true}
-              renderInput={(params) => (
-                <TextField {...params} label="Search City" variant="outlined" />
-              )}
-              renderOption={(option) => (
-                <div className={classes.option}>
-                  <Typography noWrap>
-                    {option.lastname} {option.firstname}
-                  </Typography>
-                  <Typography noWrap className={classes.optionItemThree}>
-                    {option.city}
-                  </Typography>
-                </div>
-              )}
-            />
-          )}
+              Add New Customer
+            </Button>
+            <CustomerExport clients={clients} />
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <Button
-            className={classes.button}
-            color="primary"
-            variant="contained"
-            onClick={() => openAddClientModal()}
-            startIcon={<AddIcon />}
-            fullWidth
-            size="large"
-          >
-            Add New Customer
-          </Button>
-          <CustomerExport clients={clients} />
-        </Grid>
-      </Grid>
+      </div>
     );
   }
 );
