@@ -101,6 +101,11 @@ const AddPart = ({
     setPartCost(cost);
   };
 
+  const onPartlaborChange = (event) => {
+    const labor = Number(event.target.value.replace(/[^0-9.]+/g, ""));
+    setPartLabor(labor);
+  };
+
   return (
     <Modal
       aria-labelledby="add-new-part-modal"
@@ -200,9 +205,10 @@ const AddPart = ({
               <Grid item xs={4}>
                 <TextField
                   id="part_labor"
+                  type="number"
                   label="Part Labor"
                   value={partLabor}
-                  onChange={(e) => setPartLabor(e.target.value)}
+                  onChange={(e) => onPartlaborChange(e)}
                   fullWidth
                 />
               </Grid>
