@@ -96,6 +96,11 @@ const AddClientActivity = ({
     <Grid container spacing={1} className={classes.root}>
       <Grid item xs={1} />
       <Grid item xs={10}>
+        <Typography variant="h5">Customer Activity Buttons</Typography>
+      </Grid>
+      <Grid item xs={1} />
+      <Grid item xs={1} />
+      <Grid item xs={10}>
         {client.id ? (
           <Button
             variant="contained"
