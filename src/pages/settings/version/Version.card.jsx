@@ -21,7 +21,7 @@ const Version = () => {
         Service Tools
       </Typography>
       <Typography variant="subtitle2" gutterBottom>
-        Version 2.1 Updated Jul 09 2021
+        Version 2.1 Updated Mar 29 2022
       </Typography>
       <Typography variant="caption" gutterBottom>
         Waldorf
