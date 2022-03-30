@@ -10,6 +10,7 @@ import CustomerInfo from "./CustomerInfo.fields";
 import PartsList from "./PartsList.table";
 import AddPart from "./AddPart.modal";
 import EditPart from "./EditPart.modal";
+import InvoiceNumberModal from "./InvoiceNumberModal";
 import DeletePart from "./DeletePart.modal";
 import LaborShipping from "./LaborShipping.fields";
 import Totals from "./Totals.fields";
@@ -17,7 +18,7 @@ import Totals from "./Totals.fields";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-//import PrintIcon from "@material-ui/icons/Print";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import SaveAltIcon from "@material-ui/icons/SaveAlt";
 import CloseIcon from "@material-ui/icons/Close";
 import Paper from "@material-ui/core/Paper";
@@ -115,6 +116,15 @@ const PartsQuote = (props) => {
     part.customerCost = part.totalCost * part.markUp;
     setParts((prevState) => [...prevState, part]);
     closeAddPartModal();
+  };
+
+  // Invoice Number Modal
+  const [isInvoiceNumberModalOpen, setInvoiceNumberModalOpen] = useState(false);
+  const openInvoiceNumberModal = () => {
+    setInvoiceNumberModalOpen(true);
+  };
+  const closeInvoiceNumberModal = () => {
+    setInvoiceNumberModalOpen(false);
   };
 
   //Labor and Shipping
@@ -518,6 +528,16 @@ const PartsQuote = (props) => {
                 color="primary"
                 variant="contained"
                 className={classes.button}
+                startIcon={<AttachMoneyIcon />}
+                onClick={() => openInvoiceNumberModal()}
+              >
+                Start A New Invoice From This Quote
+              </Button>
+              <Button
+                type="button"
+                color="primary"
+                variant="contained"
+                className={classes.button}
                 startIcon={<CloseIcon />}
                 onClick={() => history.goBack()}
               >
@@ -548,6 +568,12 @@ const PartsQuote = (props) => {
               closeDeletePartModal={closeDeletePartModal}
               deletePartInTheList={deletePartInTheList}
               part={part}
+            />
+          )}
+          {isInvoiceNumberModalOpen && (
+            <InvoiceNumberModal
+              isInvoiceNumberModalOpen={isInvoiceNumberModalOpen}
+              closeInvoiceNumberModal={closeInvoiceNumberModal}
             />
           )}
         </div>
