@@ -50,9 +50,15 @@ export const currencyFormat = (value) => {
   }
 
   export const toRetail = (number) => {
+    console.log("number: " + number)
     let newNumber = parseFloat(number).toFixed(2);
+    console.log("baseCost: " + newNumber)
     let markUpNumber = currency(newNumber).multiply(1.75);
-    let taxNumber = currency(newNumber).multiply(0.06);
+    console.log("markUp: " + markUpNumber)
+    let taxNumber = currency(markUpNumber).multiply(0.06);
+    console.log("tax: " + taxNumber)
     let retailNumber = markUpNumber.add(taxNumber);
+    //let retailNumber = markUpNumber.multiply(0.06);
+    console.log("taxed markup: " + retailNumber)
     return formatter.format(retailNumber);
   }
