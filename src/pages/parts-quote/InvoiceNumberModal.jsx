@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -40,6 +40,8 @@ const InvoiceNumberModal = ({
 }) => {
   const classes = useStyles();
 
+  const [userCreatedInvoiceNumber, setUserCreatedInvoiceNumber] = useState("");
+
   return (
     <Modal
       aria-labelledby="invoice-number-modal"
@@ -54,39 +56,42 @@ const InvoiceNumberModal = ({
     >
       <Fade in={isInvoiceNumberModalOpen}>
         <div className={classes.paper}>
-          <Grid container spacing={1}>
-            <Grid item xs={12}>
-              <Typography variant="h5" gutterBottom className={classes.title}>
-                Invoice Number
-              </Typography>
+          <form>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <Typography variant="h5" gutterBottom className={classes.title}>
+                  Invoice Number
+                </Typography>
+              </Grid>
+              {/* would you like to use your own invoice number or generate a new one? */}
             </Grid>
-          </Grid>
-          <Grid
-            container
-            alignItems="flex-start"
-            justify="flex-end"
-            direction="row"
-          >
-            <Button
-              type="submit"
-              color="primary"
-              variant="contained"
-              className={classes.button}
-              startIcon={<ArrowUpwardIcon />}
+            <Grid
+              container
+              alignItems="flex-start"
+              justify="flex-end"
+              direction="row"
             >
-              Add
-            </Button>
-            <Button
-              type="button"
-              color="primary"
-              variant="contained"
-              onClick={() => closeInvoiceNumberModal()}
-              className={classes.button}
-              startIcon={<CloseIcon />}
-            >
-              Close
-            </Button>
-          </Grid>
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                className={classes.button}
+                startIcon={<ArrowUpwardIcon />}
+              >
+                Add
+              </Button>
+              <Button
+                type="button"
+                color="primary"
+                variant="contained"
+                onClick={() => closeInvoiceNumberModal()}
+                className={classes.button}
+                startIcon={<CloseIcon />}
+              >
+                Close
+              </Button>
+            </Grid>
+          </form>
         </div>
       </Fade>
     </Modal>
