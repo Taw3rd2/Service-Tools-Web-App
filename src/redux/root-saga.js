@@ -12,6 +12,7 @@ import { labelSagas } from "./labels/label.sagas";
 import { inventoryContainersSagas } from "./inventoryContainers/inventoryContainers.sagas";
 import { partsCatalogSagas } from './partsCatalog/partsCatalog.sagas'
 import { tabSagas } from './tabs/tab.sagas';
+import { invoiceSagas } from './invoices/invoices.sagas'
 
 export default function* rootSaga() {
   yield all([
@@ -26,5 +27,6 @@ export default function* rootSaga() {
     call(inventoryContainersSagas),
     call(partsCatalogSagas),
     call(tabSagas),
+    call(invoiceSagas),
   ]);
 }

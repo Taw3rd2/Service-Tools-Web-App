@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addClientStart } from "../../../redux/clients/clients.actions";
 
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import Backdrop from "@material-ui/core/Backdrop";
 import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
+import Fade from "@material-ui/core/Fade";
+import Grid from "@material-ui/core/Grid";
+import Modal from "@material-ui/core/Modal";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import CloseIcon from "@material-ui/icons/Close";
-import Checkbox from "@material-ui/core/Checkbox";
-import TextField from "@material-ui/core/TextField";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -586,7 +587,7 @@ const AddNewClient = ({
             <Grid
               container
               alignItems="flex-start"
-              justify="flex-end"
+              justifyContent="flex-end"
               direction="row"
             >
               <Button

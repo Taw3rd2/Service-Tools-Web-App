@@ -40,6 +40,7 @@ import Completed from "../../components/completed/Completed.modal";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { deleteClientStart } from "../../redux/clients/clients.actions";
+import DailyTracking from "../daily-tracking/DailyTracking";
 
 const ClientSearch = lazy(() => import("../client-search/ClientSearch.page"));
 const ClientInfo = lazy(() => import("../client-info/ClientInfo.page"));
@@ -68,7 +69,6 @@ const useStyles = makeStyles((theme) => ({
 const ClientSearchWithSpinner = WithSpinner(ClientSearch);
 const ClientInfoWithSpinner = WithSpinner(ClientInfo);
 const AddClientActivityWithSpinner = WithSpinner(AddClientActivity);
-//const GlobalChartsWithSpinner = WithSpinner(GlobalCharts);
 const ClientActivityWithSpinner = WithSpinner(ClientActivity);
 
 const HomePage = ({ isClientsLoaded, clients, deleteClientStart }) => {
@@ -239,7 +239,7 @@ const HomePage = ({ isClientsLoaded, clients, deleteClientStart }) => {
     });
   };
 
-  //Note Creator Modal
+  //Note Modal
   const [isNoteCreatorModalOpen, setNoteCreatorModalOpen] = useState(false);
   const [noteType, setNoteType] = useState("Phone");
   const openNoteCreatorModal = (selectedNoteType) => {
@@ -483,7 +483,6 @@ const HomePage = ({ isClientsLoaded, clients, deleteClientStart }) => {
           <AddClientActivityWithSpinner
             isLoading={!isClientsLoaded}
             client={client}
-            openNoteCreatorModal={openNoteCreatorModal}
             openMaintnanceListModal={openMaintnanceListModal}
             openWarrantyListModal={openWarrantyListModal}
             openCreateDispatchModal={openCreateDispatchModal}
@@ -492,13 +491,16 @@ const HomePage = ({ isClientsLoaded, clients, deleteClientStart }) => {
             openEquipmentQuotesModal={openEquipmentQuotesModal}
           />
         </Grid>
-        <Grid item xs={6}></Grid>
+        <Grid item xs={6}>
+          <DailyTracking />
+        </Grid>
         <Grid item xs={6}>
           <ClientActivityWithSpinner
             client={client}
             isLoading={!isClientsLoaded}
             size="large"
             openActivityDetailsModal={openActivityDetailsModal}
+            openNoteCreatorModal={openNoteCreatorModal}
           />
         </Grid>
       </Grid>
@@ -580,6 +582,7 @@ const HomePage = ({ isClientsLoaded, clients, deleteClientStart }) => {
         <ActivityDetails
           isActivityDetailsModalOpen={isActivityDetailsModalOpen}
           closeActivityDetailsModal={closeActivityDetailsModal}
+          id={client.id}
           activity={activity}
         />
       )}

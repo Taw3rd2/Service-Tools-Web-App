@@ -58,6 +58,7 @@ const eventsReducer = (state = INITIAL_STATE, action) => {
               timeAlotted: action.payload.timeAlotted,
               timeOfDay: action.payload.timeOfDay,
               title: action.payload.title,
+              invoiceId: action.payload.invoiceId
             };
           }
           return event;

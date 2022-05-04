@@ -7,11 +7,8 @@ import ContactField from "./fields/ContactField";
 import BusinessContactField from "./fields/BusinessContactField";
 import EmailField from "./fields/EmailField";
 
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import EditIcon from "@material-ui/icons/Edit";
-import ListIcon from "@material-ui/icons/List";
-import Button from "@material-ui/core/Button";
+import { Button, Grid, Typography } from "@material-ui/core";
+import { Edit, List } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -20,40 +17,8 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid black",
     backgroundColor: "#e6ebf2",
   },
-
-  button: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(1),
-  },
-
-  hrNoMargin: {
-    margin: 0,
-  },
-
-  headers: {
-    marginTop: theme.spacing(1),
-    textAlign: "center",
-  },
-
-  fieldEntries: {
-    marginTop: 0,
-    marginRight: 0,
-    marginBottom: 0,
-    marginLeft: 10,
-  },
-
-  icon: {
-    textAlign: "center",
-  },
-
-  blackIcon: {
-    color: "black",
-    textAlign: "center",
-  },
-
-  redIcon: {
-    color: "red",
-    textAlign: "center",
+  card: {
+    padding: theme.spacing(1),
   },
 }));
 
@@ -80,143 +45,172 @@ const CustomerIsLoaded = ({
     return <Spinner />;
   } else {
     return (
-      <Grid container spacing={1} className={classes.root}>
-        {customer.billingiscommercial && (
-          <Grid item xs={12}>
-            <Typography variant="h5" gutterBottom className={classes.redIcon}>
-              Commercial
-            </Typography>
-          </Grid>
-        )}
-        <Grid item xs={6}>
-          <MainField
-            title={"Customer Information"}
-            name={`${customer.firstname} ${customer.lastname}`}
-            address={customer.street}
-            address2={`${customer.city},${customer.state} ${customer.zip}`}
-            business={false}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          {customer.billingorg && (
-            <MainField
-              title={"Billing Information"}
-              name={customer.billingorg}
-              address={customer.billingstreet}
-              address2={`${customer.billingcity},${customer.billingstate} ${customer.billingzip}`}
-              business={true}
-            />
+      <div className={classes.root}>
+        <Grid container>
+          {customer.billingiscommercial && (
+            <Grid item xs={12}>
+              <div className={classes.card}>
+                <Typography
+                  variant="h5"
+                  gutterBottom
+                  style={{ textAlign: "center", color: "red" }}
+                >
+                  Commercial
+                </Typography>
+              </div>
+            </Grid>
           )}
-        </Grid>
+          <Grid item xs={6}>
+            <div className={classes.card}>
+              <MainField
+                title={"Customer Information"}
+                name={`${customer.firstname} ${customer.lastname}`}
+                address={customer.street}
+                address2={`${customer.city},${customer.state} ${customer.zip}`}
+                business={false}
+              />
+            </div>
+          </Grid>
 
-        <Grid item xs={6}>
-          {customer.phoneName || customer.phone ? (
-            <ContactField
-              title={"Primary Contact"}
-              name={customer.phoneName}
-              phone={customer.phone}
-            />
-          ) : null}
-        </Grid>
+          <Grid item xs={6}>
+            {customer.billingorg && (
+              <div className={classes.card}>
+                <MainField
+                  title={"Billing Information"}
+                  name={customer.billingorg}
+                  address={customer.billingstreet}
+                  address2={`${customer.billingcity},${customer.billingstate} ${customer.billingzip}`}
+                  business={true}
+                />
+              </div>
+            )}
+          </Grid>
 
-        <Grid item xs={6}>
-          {customer.billingPrimaryName || customer.billingPrimaryPhone ? (
-            <BusinessContactField
-              title={"Primary Billing Contact"}
-              name={customer.billingPrimaryName}
-              phone={customer.billingPrimaryPhone}
-              email={customer.billingPrimaryEmail}
-            />
-          ) : null}
-        </Grid>
+          <Grid item xs={6}>
+            {customer.phoneName || customer.phone ? (
+              <div className={classes.card}>
+                <ContactField
+                  title={"Primary Contact"}
+                  name={customer.phoneName}
+                  phone={customer.phone}
+                />
+              </div>
+            ) : null}
+          </Grid>
 
-        <Grid item xs={6}>
-          {customer.altphone || customer.altPhoneName ? (
-            <ContactField
-              title={"Alternate Contact"}
-              name={customer.altPhoneName}
-              phone={customer.altphone}
-            />
-          ) : null}
-        </Grid>
+          <Grid item xs={6}>
+            {customer.billingPrimaryName || customer.billingPrimaryPhone ? (
+              <div className={classes.card}>
+                <BusinessContactField
+                  title={"Primary Billing Contact"}
+                  name={customer.billingPrimaryName}
+                  phone={customer.billingPrimaryPhone}
+                  email={customer.billingPrimaryEmail}
+                />
+              </div>
+            ) : null}
+          </Grid>
 
-        <Grid item xs={6}>
-          {customer.billingAlternateName || customer.billingAlternatePhone ? (
-            <BusinessContactField
-              title={"Alternate Billing Contact"}
-              name={customer.billingAlternateName}
-              phone={customer.billingAlternatePhone}
-              email={customer.billingAlternateEmail}
-            />
-          ) : null}
-        </Grid>
+          <Grid item xs={6}>
+            {customer.altphone || customer.altPhoneName ? (
+              <div className={classes.card}>
+                <ContactField
+                  title={"Alternate Contact"}
+                  name={customer.altPhoneName}
+                  phone={customer.altphone}
+                />
+              </div>
+            ) : null}
+          </Grid>
 
-        <Grid item xs={6}>
-          {customer.otherPhone || customer.otherPhoneName ? (
-            <ContactField
-              title={"Other Contact"}
-              name={customer.otherPhoneName}
-              phone={customer.otherPhone}
-            />
-          ) : null}
-        </Grid>
+          <Grid item xs={6}>
+            {customer.billingAlternateName || customer.billingAlternatePhone ? (
+              <div className={classes.card}>
+                <BusinessContactField
+                  title={"Alternate Billing Contact"}
+                  name={customer.billingAlternateName}
+                  phone={customer.billingAlternatePhone}
+                  email={customer.billingAlternateEmail}
+                />
+              </div>
+            ) : null}
+          </Grid>
 
-        <Grid item xs={6}>
-          {customer.billingOtherPhone || customer.billingOtherName ? (
-            <BusinessContactField
-              title={"Other Billing Contact"}
-              name={customer.billingOtherName}
-              phone={customer.billingOtherPhone}
-              email={customer.billingOtherEmail}
-            />
-          ) : null}
-        </Grid>
+          <Grid item xs={6}>
+            {customer.otherPhone || customer.otherPhoneName ? (
+              <div className={classes.card}>
+                <ContactField
+                  title={"Other Contact"}
+                  name={customer.otherPhoneName}
+                  phone={customer.otherPhone}
+                />
+              </div>
+            ) : null}
+          </Grid>
 
-        <Grid item xs={6}>
-          {customer.email ? (
-            <EmailField title={"Customers Email"} email={customer.email} />
-          ) : null}
-        </Grid>
-        <Grid item xs={6} />
+          <Grid item xs={6}>
+            {customer.billingOtherPhone || customer.billingOtherName ? (
+              <div className={classes.card}>
+                <BusinessContactField
+                  title={"Other Billing Contact"}
+                  name={customer.billingOtherName}
+                  phone={customer.billingOtherPhone}
+                  email={customer.billingOtherEmail}
+                />
+              </div>
+            ) : null}
+          </Grid>
 
-        <Grid item xs={4}>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={() => handleOpeningEditClientModal()}
-            startIcon={<EditIcon />}
-            fullWidth
-          >
-            Edit Client
-          </Button>
+          <Grid item xs={6}>
+            {customer.email ? (
+              <div className={classes.card}>
+                <EmailField title={"Customers Email"} email={customer.email} />
+              </div>
+            ) : null}
+          </Grid>
+          <Grid item xs={6} />
+
+          <Grid item xs={4}>
+            <div className={classes.card}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleOpeningEditClientModal()}
+                startIcon={<Edit />}
+                fullWidth
+              >
+                Edit Client
+              </Button>
+            </div>
+          </Grid>
+          <Grid item xs={4}>
+            <div className={classes.card}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => openEquipmentListModal()}
+                startIcon={<List />}
+                fullWidth
+              >
+                Equipment
+              </Button>
+            </div>
+          </Grid>
+          <Grid item xs={4}>
+            <div className={classes.card}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleOpeningEditBillingModal()}
+                startIcon={<Edit />}
+                fullWidth
+              >
+                Edit Billing
+              </Button>
+            </div>
+          </Grid>
         </Grid>
-        <Grid item xs={4}>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={() => openEquipmentListModal()}
-            startIcon={<ListIcon />}
-            fullWidth
-          >
-            Equipment
-          </Button>
-        </Grid>
-        <Grid item xs={4}>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={() => handleOpeningEditBillingModal()}
-            startIcon={<EditIcon />}
-            fullWidth
-          >
-            Edit Billing
-          </Button>
-        </Grid>
-      </Grid>
+      </div>
     );
   }
 };

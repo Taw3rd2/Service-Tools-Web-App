@@ -6,12 +6,12 @@ import { useHistory } from "react-router-dom";
 
 import { useSnackbar } from "notistack";
 
-import CustomerInfo from "./CustomerInfo.fields";
-import PartsList from "./PartsList.table";
 import AddPart from "./AddPart.modal";
-import EditPart from "./EditPart.modal";
-import InvoiceNumberModal from "./InvoiceNumberModal";
+import CustomerInfo from "./CustomerInfo.fields";
 import DeletePart from "./DeletePart.modal";
+import EditPart from "./EditPart.modal";
+import InvoiceStarterModal from "./invoice-starter/InvoiceStarterModal";
+import PartsList from "./PartsList.table";
 import LaborShipping from "./LaborShipping.fields";
 import Totals from "./Totals.fields";
 
@@ -31,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
   title: {
     margin: theme.spacing(1),
     color: "teal",
+  },
+  greenTitle: {
+    margin: theme.spacing(1),
+    color: "green",
   },
   button: {
     marginTop: theme.spacing(2),
@@ -66,9 +70,12 @@ const PartsQuote = (props) => {
   const classes = useStyles();
   const history = useHistory();
 
-  console.log("quoteData", quoteData);
+  const [accepted, setAccepted] = useState(
+    quoteData.accepted ? quoteData.accepted : false
+  );
 
   const [id, setId] = useState(quoteData.id ? quoteData.id : "");
+  const isPreDefinedQuote = true;
 
   //customer/equipment info
   const [customerName, setCustomerName] = useState(
@@ -78,9 +85,6 @@ const PartsQuote = (props) => {
     client.street
       ? `${client.street} ${client.city}, ${client.state} ${client.zip}`
       : ""
-  );
-  const [jobNumber, setJobNumber] = useState(
-    quoteData.jobNumber ? quoteData.jobNumber : ""
   );
   const [quoteDate, setQuoteDate] = useState(
     quoteData.quoteDate ? quoteData.quoteDate : new Date()
@@ -111,20 +115,46 @@ const PartsQuote = (props) => {
   };
   const addPartToPartsList = (part) => {
     const partQuantity = part.quantity;
-    const partCost = part.cost;
+    const partCost = part.partCost;
     part.totalCost = partQuantity * partCost;
-    part.customerCost = part.totalCost * part.markUp;
+    part.customerCost = part.totalCost * part.partMarkUp;
     setParts((prevState) => [...prevState, part]);
     closeAddPartModal();
   };
 
   // Invoice Number Modal
-  const [isInvoiceNumberModalOpen, setInvoiceNumberModalOpen] = useState(false);
-  const openInvoiceNumberModal = () => {
-    setInvoiceNumberModalOpen(true);
+  const [userCreatedInvoiceNumber, setUserCreatedInvoiceNumber] = useState("");
+  const [invoiceNumberPrefix, setInvoiceNumberPrefix] = useState("H");
+  const [isInvoiceStarterModalOpen, setInvoiceStarterModalOpen] =
+    useState(false);
+  const openInvoiceStarterModal = () => {
+    setInvoiceStarterModalOpen(true);
   };
-  const closeInvoiceNumberModal = () => {
-    setInvoiceNumberModalOpen(false);
+  const closeInvoiceStarterModal = () => {
+    setInvoiceStarterModalOpen(false);
+  };
+  const [halfDown, setHalfDown] = useState({
+    type: "",
+    amount: 0,
+    checkNumber: 0,
+    driversLicenseNumber: "",
+    creditCardNumber: "",
+    expirationDate: "",
+    vCode: "",
+  });
+  const handleHalfDownUpdates = (prop) => (event) => {
+    setHalfDown({ ...halfDown, [prop]: event.target.value });
+  };
+
+  const [paymentSelector, setPaymentSelector] = useState("b");
+  const handlePaymentSelectorChange = (event) => {
+    if (event.target.value === "a") {
+      setHalfDown({ ...halfDown, type: "" });
+    }
+    if (event.target.value === "d") {
+      setHalfDown({ ...halfDown, type: "netThirty" });
+    }
+    setPaymentSelector(event.target.value);
   };
 
   //Labor and Shipping
@@ -290,7 +320,8 @@ const PartsQuote = (props) => {
 
   const onSave = () => {
     const partsQuote = {
-      jobNumber,
+      accepted,
+      isPreDefinedQuote,
       quoteDate,
       equipmentName,
       equipmentBrand,
@@ -313,8 +344,8 @@ const PartsQuote = (props) => {
     if (id === "") {
       const docForId = firebase.firestore().collection("customers").doc();
       const generatedId = docForId.id;
-      partsQuote.id = generatedId; //add the new manually created id to the new parts quote
-      setId(generatedId); //add the manually created id to the state
+      partsQuote.id = generatedId;
+      setId(generatedId);
 
       firebase
         .firestore()
@@ -344,6 +375,70 @@ const PartsQuote = (props) => {
     }
   };
 
+  const navigateToInvoiceCreation = () => {
+    setAccepted(true);
+    const totalPartsCost = getTotalPartsCost();
+    const totalPartsTax = getTotalPartsTax();
+    const totalLabor = getTotalLabor();
+    const totalPartsRetailCost = getTotalCustomerCost();
+    const subTotalOfInvoice = getSubtotal();
+    const totalMaintenance = getMaintenance();
+    const totalRediagnostic = getRediagnostic();
+    const totalShipping = getShipping();
+    const totalDiscounts = getDiscount();
+    const totalQuote = getTotalQuote();
+    const invoiceDataPackage = {
+      client,
+      isPreDefinedQuote,
+      quoteDate,
+      equipmentName,
+      equipmentBrand,
+      equipmentModel,
+      equipmentSerial,
+      partsList: parts,
+      laborHours,
+      laborRate,
+      maintenance: addMaintenance,
+      rediagnostic: addRediagnostic,
+      selectedShipping,
+      regularShippingTime,
+      regularShippingRate,
+      quickShippingTime,
+      quickShippingRate,
+      shippingNotes,
+      selectedDiscount,
+      disclaimerRed,
+      invoiceNumberPrefix,
+      userCreatedInvoiceNumber,
+      totalPartsCost,
+      totalPartsTax,
+      totalLabor,
+      totalPartsRetailCost,
+      subTotalOfInvoice,
+      totalMaintenance,
+      totalRediagnostic,
+      totalShipping,
+      totalDiscounts,
+      totalQuote,
+      halfDown,
+      balanceDue: {
+        type: "",
+        amount: getTotalQuote() - halfDown.amount,
+        checkNumber: 0,
+        driversLicenceNumber: "",
+        creditCardNumber: "",
+        expirationDate: "",
+        vCode: "",
+      },
+      workDescription: "",
+    };
+    history.push({
+      pathname: "/invoice",
+      state: { dataPackage: invoiceDataPackage },
+    });
+    closeInvoiceStarterModal();
+  };
+
   return (
     <>
       {matchesPrint ? (
@@ -351,14 +446,21 @@ const PartsQuote = (props) => {
           <Typography variant="h5" gutterBottom className={classes.title}>
             Parts Quote
           </Typography>
+          {accepted ? (
+            <Typography
+              variant="h5"
+              gutterBottom
+              className={classes.greenTitle}
+            >
+              Accepted
+            </Typography>
+          ) : null}
           <Paper className={classes.paper}>
             <CustomerInfo
               customerName={customerName}
               setCustomerName={setCustomerName}
               customerAddress={customerAddress}
               setCustomerAddress={setCustomerAddress}
-              jobNumber={jobNumber}
-              setJobNumber={setJobNumber}
               quoteDate={quoteDate}
               setQuoteDate={setQuoteDate}
               equipmentName={equipmentName}
@@ -432,8 +534,6 @@ const PartsQuote = (props) => {
               setCustomerName={setCustomerName}
               customerAddress={customerAddress}
               setCustomerAddress={setCustomerAddress}
-              jobNumber={jobNumber}
-              setJobNumber={setJobNumber}
               quoteDate={quoteDate}
               setQuoteDate={setQuoteDate}
               equipmentName={equipmentName}
@@ -497,7 +597,7 @@ const PartsQuote = (props) => {
             <Grid
               container
               alignItems="flex-start"
-              justify="flex-end"
+              justifyContent="flex-end"
               direction="row"
             >
               {id === "" ? (
@@ -529,7 +629,7 @@ const PartsQuote = (props) => {
                 variant="contained"
                 className={classes.button}
                 startIcon={<AttachMoneyIcon />}
-                onClick={() => openInvoiceNumberModal()}
+                onClick={() => openInvoiceStarterModal()}
               >
                 Start A New Invoice From This Quote
               </Button>
@@ -570,10 +670,20 @@ const PartsQuote = (props) => {
               part={part}
             />
           )}
-          {isInvoiceNumberModalOpen && (
-            <InvoiceNumberModal
-              isInvoiceNumberModalOpen={isInvoiceNumberModalOpen}
-              closeInvoiceNumberModal={closeInvoiceNumberModal}
+          {isInvoiceStarterModalOpen && (
+            <InvoiceStarterModal
+              isInvoiceStarterModalOpen={isInvoiceStarterModalOpen}
+              closeInvoiceStarterModal={closeInvoiceStarterModal}
+              userCreatedInvoiceNumber={userCreatedInvoiceNumber}
+              setUserCreatedInvoiceNumber={setUserCreatedInvoiceNumber}
+              invoiceNumberPrefix={invoiceNumberPrefix}
+              setInvoiceNumberPrefix={setInvoiceNumberPrefix}
+              navigateToInvoiceCreation={navigateToInvoiceCreation}
+              getTotalQuote={getTotalQuote}
+              halfDown={halfDown}
+              handleHalfDownUpdates={handleHalfDownUpdates}
+              paymentSelector={paymentSelector}
+              handlePaymentSelectorChange={handlePaymentSelectorChange}
             />
           )}
         </div>
@@ -583,14 +693,3 @@ const PartsQuote = (props) => {
 };
 
 export default PartsQuote;
-
-// <Button
-// type="button"
-// color="primary"
-// variant="contained"
-// className={classes.button}
-// startIcon={<PrintIcon />}
-// onClick={() => window.print()}
-// >
-// Print
-// </Button>

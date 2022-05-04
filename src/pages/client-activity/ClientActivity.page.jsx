@@ -6,16 +6,25 @@ import firebase from "firebase/app";
 import {
   getFormattedTime,
   getFormattedDateAndTime,
+  getFormattedDate,
 } from "../../utils/dateUtils";
 
+import {
+  Button,
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@material-ui/core";
+
+import { NoteAdd } from "@material-ui/icons";
+
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableHead from "@material-ui/core/TableHead";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -39,14 +48,24 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(3),
+    backgroundColor: "#e6ebf2",
+  },
   table: {
     minWidth: 500,
-    border: "1px solid black",
   },
-});
+  buttons: {
+    marginTop: theme.spacing(3),
+  },
+}));
 
-const ClientActivity = ({ client, openActivityDetailsModal }) => {
+const ClientActivity = ({
+  client,
+  openActivityDetailsModal,
+  openNoteCreatorModal,
+}) => {
   const classes = useStyles();
   const [activities, setActivity] = useState([]);
 
@@ -68,7 +87,6 @@ const ClientActivity = ({ client, openActivityDetailsModal }) => {
               activity.sortingDate = getFormattedDateAndTime(
                 doc.data().currentTime
               );
-              activity.currentTime = getFormattedTime(activity.currentTime);
               activity.activityId = doc.id;
               newActivities.push(activity);
               newActivities.sort((a, b) =>
@@ -93,79 +111,138 @@ const ClientActivity = ({ client, openActivityDetailsModal }) => {
     return <NoCustomerLoaded />;
   } else {
     return (
-      <TableContainer
-        component={Paper}
-        style={{ overflow: "auto", height: "380px" }}
-      >
-        <Table
-          stickyHeader
-          className={classes.table}
-          size="small"
-          aria-label="customer activity table"
+      <Paper variant="outlined" className={classes.root}>
+        {client.firstname ? (
+          <Typography variant="h5" gutterBottom style={{ color: "teal" }}>
+            {client.firstname} {client.lastname} Notes
+          </Typography>
+        ) : (
+          <Typography variant="h5" gutterBottom style={{ color: "teal" }}>
+            {client.lastname} Notes
+          </Typography>
+        )}
+        <TableContainer
+          component={Paper}
+          style={{ overflow: "auto", height: "340px" }}
         >
-          <TableHead>
-            <TableRow>
-              <StyledTableCell component="th" align="left">
-                Operator
-              </StyledTableCell>
-              <StyledTableCell component="th" align="left">
-                Activity
-              </StyledTableCell>
-              <StyledTableCell component="th" align="left">
-                Date
-              </StyledTableCell>
-              <StyledTableCell component="th" align="left">
-                Time
-              </StyledTableCell>
-              <StyledTableCell component="th" align="left">
-                Details
-              </StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {activities.length > 0 ? (
-              activities.map((activity, index) => (
-                <StyledTableRow
-                  key={index}
-                  onClick={() => openActivityDetailsModal(activity)}
+          <Table
+            stickyHeader
+            className={classes.table}
+            size="small"
+            aria-label="customer activity table"
+          >
+            <TableHead>
+              <TableRow>
+                <StyledTableCell
+                  component="th"
+                  align="left"
+                  style={{ background: "darkblue" }}
                 >
+                  Operator
+                </StyledTableCell>
+                <StyledTableCell
+                  component="th"
+                  align="left"
+                  style={{ background: "darkblue" }}
+                >
+                  Activity
+                </StyledTableCell>
+                <StyledTableCell
+                  component="th"
+                  align="left"
+                  style={{ background: "darkblue" }}
+                >
+                  Date
+                </StyledTableCell>
+                <StyledTableCell
+                  component="th"
+                  align="left"
+                  style={{ background: "darkblue" }}
+                >
+                  Time
+                </StyledTableCell>
+                <StyledTableCell
+                  component="th"
+                  align="left"
+                  style={{ background: "darkblue" }}
+                >
+                  Details
+                </StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {activities.length > 0 ? (
+                activities.map((activity, index) => (
+                  <StyledTableRow
+                    key={index}
+                    onClick={() => openActivityDetailsModal(activity)}
+                  >
+                    <StyledTableCell style={{ width: 160 }} align="left">
+                      {activity.operator}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: 160 }} align="left">
+                      {activity.type}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: 160 }} align="left">
+                      {getFormattedDate(activity.currentTime)}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: 160 }} align="left">
+                      {getFormattedTime(activity.currentTime)}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      {activity.details}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))
+              ) : (
+                <StyledTableRow>
                   <StyledTableCell style={{ width: 160 }} align="left">
-                    {activity.operator}
+                    None
                   </StyledTableCell>
                   <StyledTableCell style={{ width: 160 }} align="left">
-                    {activity.type}
+                    {""}
                   </StyledTableCell>
                   <StyledTableCell style={{ width: 160 }} align="left">
-                    {activity.date}
+                    {""}
                   </StyledTableCell>
                   <StyledTableCell style={{ width: 160 }} align="left">
-                    {activity.currentTime}
+                    {""}
                   </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {activity.details}
-                  </StyledTableCell>
+                  <StyledTableCell align="left">{""}</StyledTableCell>
                 </StyledTableRow>
-              ))
-            ) : (
-              <StyledTableRow>
-                <StyledTableCell style={{ width: 160 }} align="left">
-                  None
-                </StyledTableCell>
-                <StyledTableCell style={{ width: 160 }} align="left">
-                  {""}
-                </StyledTableCell>
-                <StyledTableCell style={{ width: 160 }} align="left">
-                  {""}
-                </StyledTableCell>
-                <StyledTableCell style={{ width: 160 }} align="left">
-                  {""}
-                </StyledTableCell>
-                <StyledTableCell align="left">{""}</StyledTableCell>
-              </StyledTableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Grid
+          container
+          alignItems="flex-start"
+          justifyContent="flex-end"
+          direction="row"
+        >
+          {client.id ? (
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.buttons}
+              startIcon={<NoteAdd />}
+              onClick={() => openNoteCreatorModal("Note")}
+            >
+              Add New Note
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.buttons}
+              startIcon={<NoteAdd />}
+              disabled
+            >
+              Add New Note
+            </Button>
+          )}
+        </Grid>
+      </Paper>
     );
   }
 };

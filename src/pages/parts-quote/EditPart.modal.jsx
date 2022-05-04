@@ -63,33 +63,39 @@ const EditPart = ({
 
   const index = part.index;
   const [quantity, setQuantity] = useState(part.quantity ? part.quantity : 0);
-  const [description, setDescription] = useState(
-    part.description ? part.description : ""
+  const [partDescription, setPartDescription] = useState(
+    part.partDescription ? part.partDescription : ""
   );
   const [partNumber, setPartNumber] = useState(
     part.partNumber ? part.partNumber : ""
   );
-  const [vendor, setVendor] = useState(part.vendor ? part.vendor : "");
-  const [contact, setContact] = useState(part.contact ? part.contact : "");
-  const [contactPhone, setContactPhone] = useState(
-    part.contactPhone ? part.contactPhone : ""
+  const [partVendor, setPartVendor] = useState(
+    part.partVendor ? part.partVendor : ""
+  );
+  const [vendorContact, setVendorContact] = useState(
+    part.vendorContact ? part.vendorContact : ""
+  );
+  const [vendorContactPhone, setVendorContactPhone] = useState(
+    part.vendorContactPhone ? part.vendorContactPhone : ""
   );
   const [inStock, setInStock] = useState(part.inStock ? part.inStock : "");
-  const [cost, setCost] = useState(part.cost ? part.cost : 0.0);
-  const [markUp, setMarkUp] = useState(part.markUp ? part.markUp : 1.75);
+  const [partCost, setPartCost] = useState(part.partCost ? part.partCost : 0.0);
+  const [partMarkUp, setPartMarkUp] = useState(
+    part.partMarkUp ? part.partMarkUp : 1.75
+  );
 
   const onSubmitEditPart = (e) => {
     e.preventDefault();
     const updatedPart = {
       quantity,
-      description,
+      partDescription,
       partNumber,
-      vendor,
-      contact,
-      contactPhone,
+      partVendor,
+      vendorContact,
+      vendorContactPhone,
       inStock,
-      cost,
-      markUp,
+      partCost,
+      partMarkUp,
       index,
     };
     updatePartInTheList(updatedPart);
@@ -131,8 +137,8 @@ const EditPart = ({
               <Grid item xs={6}>
                 <TextField
                   label="Description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  value={partDescription}
+                  onChange={(e) => setPartDescription(e.target.value)}
                   margin="normal"
                   fullWidth
                   required
@@ -150,8 +156,8 @@ const EditPart = ({
               <Grid item xs={6}>
                 <TextField
                   label="Vendor"
-                  value={vendor}
-                  onChange={(e) => setVendor(e.target.value)}
+                  value={partVendor}
+                  onChange={(e) => setPartVendor(e.target.value)}
                   margin="normal"
                   fullWidth
                   required
@@ -160,8 +166,8 @@ const EditPart = ({
               <Grid item xs={6}>
                 <TextField
                   label="Vendor Contact"
-                  value={contact}
-                  onChange={(e) => setContact(e.target.value)}
+                  value={vendorContact}
+                  onChange={(e) => setVendorContact(e.target.value)}
                   margin="normal"
                   fullWidth
                 />
@@ -169,8 +175,8 @@ const EditPart = ({
               <Grid item xs={6}>
                 <TextField
                   label="Vendor Phone Number"
-                  value={contactPhone}
-                  onChange={(e) => setContactPhone(e.target.value)}
+                  value={vendorContactPhone}
+                  onChange={(e) => setVendorContactPhone(e.target.value)}
                   margin="normal"
                   fullWidth
                 />
@@ -190,8 +196,8 @@ const EditPart = ({
                   <InputLabel htmlFor="part-cost-input">Part Cost</InputLabel>
                   <Input
                     id="part-cost-input"
-                    value={cost}
-                    onChange={(e) => setCost(e.target.value)}
+                    value={partCost}
+                    onChange={(e) => setPartCost(e.target.value)}
                     fullWidth
                     startAdornment={
                       <InputAdornment position="start">$</InputAdornment>
@@ -202,8 +208,8 @@ const EditPart = ({
               <Grid item xs={6}>
                 <TextField
                   label="Mark Up"
-                  value={markUp}
-                  onChange={(e) => setMarkUp(e.target.value)}
+                  value={partMarkUp}
+                  onChange={(e) => setPartMarkUp(e.target.value)}
                   margin="normal"
                   fullWidth
                   InputProps={{
@@ -217,7 +223,7 @@ const EditPart = ({
             <Grid
               container
               alignItems="flex-start"
-              justify="flex-end"
+              justifyContent="flex-end"
               direction="row"
             >
               <Button

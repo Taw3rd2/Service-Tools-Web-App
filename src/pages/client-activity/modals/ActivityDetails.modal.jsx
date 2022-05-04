@@ -1,18 +1,24 @@
 import React, { useState } from "react";
+import firebase from "firebase/app";
 
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
-import TextField from "@material-ui/core/TextField";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
-import MenuItem from "@material-ui/core/MenuItem";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
-import CloseIcon from "@material-ui/icons/Close";
+import {
+  Backdrop,
+  Button,
+  Fade,
+  InputLabel,
+  FormControl,
+  Grid,
+  MenuItem,
+  Modal,
+  Select,
+  TextField,
+  Typography,
+} from "@material-ui/core";
+
+import { ArrowUpward, Close } from "@material-ui/icons";
+
 import { makeStyles } from "@material-ui/core/styles";
+import { getFormattedDate, getFormattedTime } from "../../../utils/dateUtils";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -28,6 +34,10 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+  title: {
+    marginBottom: theme.spacing(2),
+    color: "teal",
+  },
   formControl: {
     minWidth: 120,
   },
@@ -40,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 const ActivityDetails = ({
   isActivityDetailsModalOpen,
   closeActivityDetailsModal,
+  id,
   activity,
 }) => {
   const classes = useStyles();
@@ -47,7 +58,6 @@ const ActivityDetails = ({
   const [currentTime, setCurrentTime] = useState(
     activity.currentTime ? activity.currentTime : new Date()
   );
-  const [date, setDate] = useState(activity.date ? activity.date : new Date());
   const [details, setDetails] = useState(
     activity.details ? activity.details : ""
   );
@@ -59,14 +69,25 @@ const ActivityDetails = ({
   const onSubmit = (e) => {
     e.preventDefault();
     const newActivityDetails = {
-      currentTime: activity.currentTime,
-      date: activity.date,
+      currentTime: currentTime,
       details,
       operator,
       type,
       id: activity.activityId,
     };
-    console.dir(newActivityDetails);
+    console.log("activity", activity);
+    console.log("newActvity: ", newActivityDetails);
+    firebase
+      .firestore()
+      .collection("customers")
+      .doc(`${id}`)
+      .collection("Activity")
+      .doc(`${activity.activityId}`)
+      .update(newActivityDetails)
+      .then(() => {
+        console.log(" the deed is done..");
+        closeActivityDetailsModal();
+      });
   };
 
   return (
@@ -83,7 +104,9 @@ const ActivityDetails = ({
     >
       <Fade in={isActivityDetailsModalOpen}>
         <div className={classes.paper}>
-          <h2>Activity Details</h2>
+          <Typography variant="h5" gutterBottom className={classes.title}>
+            Edit Note
+          </Typography>
           <form onSubmit={onSubmit} autoComplete="new password">
             <Grid container spacing={2}>
               <Grid item xs={6}>
@@ -100,11 +123,6 @@ const ActivityDetails = ({
                   >
                     <MenuItem value={"Phone"}>Phone</MenuItem>
                     <MenuItem value={"Note"}>Note</MenuItem>
-                    <MenuItem value={"Dispatch"}>Dispatch</MenuItem>
-                    <MenuItem value={"Parts Quote"}>Parts Quote</MenuItem>
-                    <MenuItem value={"Equipment Quote"}>
-                      Equipment Quote
-                    </MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -120,7 +138,7 @@ const ActivityDetails = ({
               <Grid item xs={6}>
                 <TextField
                   label="Time"
-                  value={currentTime}
+                  value={getFormattedTime(currentTime)}
                   fullWidth
                   onChange={(event) => setCurrentTime(event.target.value)}
                   inputProps={{ tabIndex: "3" }}
@@ -130,9 +148,9 @@ const ActivityDetails = ({
               <Grid item xs={6}>
                 <TextField
                   label="Date"
-                  value={date}
+                  value={getFormattedDate(currentTime)}
                   fullWidth
-                  onChange={(event) => setDate(event.target.value)}
+                  onChange={(event) => setCurrentTime(event.target.value)}
                   inputProps={{ tabIndex: "4" }}
                   disabled
                 />
@@ -153,7 +171,7 @@ const ActivityDetails = ({
             <Grid
               container
               alignItems="flex-start"
-              justify="flex-end"
+              justifyContent="flex-end"
               direction="row"
             >
               <Button
@@ -162,7 +180,7 @@ const ActivityDetails = ({
                 color="primary"
                 tabIndex="20"
                 type="submit"
-                startIcon={<ArrowUpwardIcon />}
+                startIcon={<ArrowUpward />}
               >
                 Update
               </Button>
@@ -171,7 +189,7 @@ const ActivityDetails = ({
                 variant="contained"
                 color="primary"
                 tabIndex="21"
-                startIcon={<CloseIcon />}
+                startIcon={<Close />}
                 onClick={() => closeActivityDetailsModal()}
               >
                 Cancel

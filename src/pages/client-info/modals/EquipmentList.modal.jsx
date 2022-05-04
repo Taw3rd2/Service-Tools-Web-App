@@ -98,6 +98,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   root: {
+    border: "1px solid black",
     width: "60%",
     padding: theme.spacing(1),
   },

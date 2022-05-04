@@ -13,6 +13,7 @@ import labelsReducer from "./labels/label.reducer";
 import inventoryContainersReducer from './inventoryContainers/inventoryContainers.reducer';
 import partsCatalogReducer from './partsCatalog/partsCatalog.reducer'
 import tabReducer from './tabs/tab.reducer';
+import invoicesReducer from './invoices/invoices.reducer'
 
 const persistConfig = {
   key: 'root',
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   inventoryContainers: inventoryContainersReducer,
   partsCatalog: partsCatalogReducer,
   tabs: tabReducer,
+  invoices: invoicesReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer)

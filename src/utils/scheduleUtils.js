@@ -53,6 +53,7 @@ export const finalUpdate = (eventToUpdate) => {
           phone: eventToUpdate.phone,
           altphone: eventToUpdate.altphone,
           issue: eventToUpdate.issue,
+          invoiceId: eventToUpdate.invoiceId,
           timeAlotted: eventToUpdate.timeAlotted,
           techLead: eventToUpdate.techLead,
           techHelper: eventToUpdate.techHelper,

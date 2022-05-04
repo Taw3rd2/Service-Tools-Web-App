@@ -62,7 +62,6 @@ const NoteCreator = ({
   const classes = useStyles();
 
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [date, setDate] = useState(new Date());
   const [details, setDetails] = useState("");
   const [operator, setOperator] = useState("");
   const [type, setType] = useState(noteType ? noteType : "");
@@ -71,7 +70,6 @@ const NoteCreator = ({
     event.preventDefault();
     const newActivityDetails = {
       currentTime,
-      date: getFormattedDate(date),
       details,
       operator,
       type,
@@ -168,9 +166,9 @@ const NoteCreator = ({
               <Grid item xs={6}>
                 <TextField
                   label="Date"
-                  value={getFormattedDate(date)}
+                  value={getFormattedDate(currentTime)}
                   fullWidth
-                  onChange={(event) => setDate(event.target.value)}
+                  onChange={(event) => setCurrentTime(event.target.value)}
                   inputProps={{ tabIndex: "4" }}
                   disabled
                 />
@@ -191,7 +189,7 @@ const NoteCreator = ({
             <Grid
               container
               alignItems="flex-start"
-              justify="flex-end"
+              justifyContent="flex-end"
               direction="row"
             >
               <Button

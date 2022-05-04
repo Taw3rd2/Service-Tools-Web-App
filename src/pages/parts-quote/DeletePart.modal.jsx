@@ -79,7 +79,7 @@ const DeletePart = ({
           <Grid
             container
             alignItems="flex-start"
-            justify="flex-end"
+            justifyContent="flex-end"
             direction="row"
           >
             <Button

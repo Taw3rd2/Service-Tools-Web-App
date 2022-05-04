@@ -158,6 +158,10 @@ const SelectDispatch = ({
   const scheduledDate = selectedDispatch.extendedProps.scheduledDate;
   const end = selectedDispatch.end;
   const title = selectedDispatch.title;
+  const localInvoiceId =
+    selectedDispatch.extendedProps.invoiceId !== undefined
+      ? selectedDispatch.extendedProps.invoiceId
+      : "";
 
   const [start, setStart] = useState(
     selectedDispatch.start
@@ -276,6 +280,7 @@ const SelectDispatch = ({
         end,
         firstname,
         id,
+        invoiceId: localInvoiceId,
         issue,
         jobNumber,
         lastname,
@@ -297,9 +302,7 @@ const SelectDispatch = ({
         timeOfDay,
         title,
       };
-
-      console.log("updatedDispatch", updatedDispatch);
-
+      console.log("updated dispatch object 1", updatedDispatch);
       //compare old dispatch with changes to see if techs changed
       const noTechChange = compareEvents(
         selectedDispatch.extendedProps,
@@ -383,7 +386,6 @@ const SelectDispatch = ({
               console.log(
                 "techHelper changed to another tech but there is no second dispatch to change"
               );
-              // tech helper on the original event is not getting updated
               let newEvent = { ...updatedDispatch };
               const docForId = firebase.firestore().collection("events").doc();
               const generatedId = docForId.id;
@@ -446,6 +448,7 @@ const SelectDispatch = ({
             newEvent.techHelper = updatedDispatch.techLead;
             newEvent.techHelperId = updatedDispatch.id;
             const eventToUpdate = finalUpdate(newEvent);
+            console.log("eventToUpdate: ", eventToUpdate);
             updateEventStart(eventToUpdate);
             updateDispatchSuccessIndicator();
             closeSelectedDispatchModal();
@@ -862,7 +865,7 @@ const SelectDispatch = ({
           <Grid
             container
             alignItems="flex-start"
-            justify="flex-end"
+            justifyContent="flex-end"
             direction="row"
           >
             <Button

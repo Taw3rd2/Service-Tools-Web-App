@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -24,8 +24,6 @@ const CustomerInfo = ({
   setCustomerName,
   customerAddress,
   setCustomerAddress,
-  jobNumber,
-  setJobNumber,
   quoteDate,
   setQuoteDate,
   equipmentName,
@@ -39,6 +37,8 @@ const CustomerInfo = ({
 }) => {
   const matchesPrint = useMediaQuery("print");
   const classes = useStyles();
+
+  const [placeHolder, setPlaceHolder] = useState("1");
 
   return (
     <>
@@ -85,11 +85,11 @@ const CustomerInfo = ({
           </Grid>
           <Grid item xs={6} className={classes.textFields}>
             <TextField
-              label="Job Number"
-              value={jobNumber}
+              label="Quote Number"
+              value={placeHolder}
               fullWidth
               required
-              onChange={(event) => setJobNumber(event.target.value)}
+              onChange={(event) => setPlaceHolder(event.target.value)}
               inputProps={{ tabIndex: "3" }}
             />
           </Grid>
@@ -173,11 +173,10 @@ const CustomerInfo = ({
           </Grid>
           <Grid item xs={6}>
             <TextField
-              label="Job Number"
-              value={jobNumber}
+              label="Quote Number"
+              value={placeHolder}
               fullWidth
-              required
-              onChange={(event) => setJobNumber(event.target.value)}
+              onChange={(event) => setPlaceHolder(event.target.value)}
               inputProps={{ tabIndex: "3" }}
             />
           </Grid>

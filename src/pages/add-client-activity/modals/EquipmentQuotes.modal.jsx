@@ -13,9 +13,11 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    border: "1px solid black",
     minWidth: 275,
     width: "50%",
     maxHeight: 440,
+    backgroundColor: "#e6ebf2",
   },
   modal: {
     display: "flex",

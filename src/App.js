@@ -9,7 +9,7 @@ import { createStructuredSelector } from "reselect";
 
 import Navbar from './components/navbar/Navbar'
 import SignInPage from "./pages/Sign-In/SignIn.page";
-import PartsQuote from "./pages/parts-quote/PartsQuote.page"
+import PartsQuote from "./pages/parts-quote/PartsQuote.page";
 //import { GeneralLedgerPage } from "./pages/ledger/GeneralLedgerPage";
 //const PartsQuote = lazy(() => import("./pages/parts-quote/PartsQuote.page"))
 
@@ -21,6 +21,7 @@ const Schedule = lazy(() => import("./pages/schedule/Schedule.page"));
 const Settings = lazy(() => import("./pages/settings/Settings.page"));
 const SignUp = lazy(() => import("./pages/sign-up/SignUp.page"));
 const GeneralLedgerPage = lazy(() => import("./pages/ledger/GeneralLedgerPage"))
+const InvoicePage = lazy(() => import("./pages/invoice/InvoicePage"))
 
 function App({ currentUser, checkUserSession }) {
 
@@ -62,6 +63,15 @@ function App({ currentUser, checkUserSession }) {
           render={() => (
             <Suspense fallback={<p>Loading...</p>}>
               <GeneralLedgerPage />
+            </Suspense>
+          )}
+        />
+
+        <Route 
+          path="/invoice"
+          render={() => (
+            <Suspense fallback={<p>Loading...</p>}>
+              <InvoicePage />
             </Suspense>
           )}
         />

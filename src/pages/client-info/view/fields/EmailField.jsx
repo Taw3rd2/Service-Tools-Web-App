@@ -1,9 +1,7 @@
 import React from "react";
 
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import MailOutlineIcon from "@material-ui/icons/MailOutline";
+import { Card, Typography } from "@material-ui/core";
+import { MailOutline } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -14,22 +12,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 10,
     fontSize: "1.125rem",
   },
-
   card: {
-    marginTop: 5,
+    padding: "8px",
   },
-
-  cardContent: {
-    paddingTop: 0,
-    paddingBottom: 16,
-  },
-
-  captions: {
-    marginLeft: 5,
-    marginBottom: 5,
-    marginTop: 5,
-  },
-
   cardRow: {
     display: "flex",
   },
@@ -44,17 +29,13 @@ const EmailField = ({ title, email }) => {
 
   return (
     <Card className={classes.card}>
-      <CardContent className={classes.cardContent}>
-        <Typography variant="caption" gutterBottom className={classes.captions}>
-          {title}
+      <Typography variant="caption">{title}</Typography>
+      <div className={classes.cardRow}>
+        <MailOutline color="primary" />
+        <Typography variant="body1" className={classes.fieldEntries}>
+          {email}
         </Typography>
-        <div className={classes.cardRow}>
-          <MailOutlineIcon color="primary" />
-          <Typography variant="body1" className={classes.fieldEntries}>
-            {email}
-          </Typography>
-        </div>
-      </CardContent>
+      </div>
     </Card>
   );
 };

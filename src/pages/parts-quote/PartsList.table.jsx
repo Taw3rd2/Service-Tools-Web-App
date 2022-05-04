@@ -72,26 +72,26 @@ const StyledTableRow = withStyles((theme) => ({
 
 const columns = [
   { id: "quantity", label: "Qty", minwidth: 50 },
-  { id: "description", label: "Description", minwidth: 350 },
+  { id: "partDescription", label: "Description", minwidth: 350 },
   { id: "partNumber", label: "Part Number", minwidth: 150 },
-  { id: "vendor", label: "Vendor", minwidth: 150 },
-  { id: "contact", label: "Contact", minwidth: 150 },
-  { id: "contanctPhone", label: "Contact #", minwidth: 150 },
-  { id: "stock", label: "In Stock?", minwidth: 150 },
-  { id: "cost", label: "Part Cost", minwidth: 150 },
+  { id: "partVendor", label: "Vendor", minwidth: 150 },
+  { id: "vendorContact", label: "Contact", minwidth: 150 },
+  { id: "vendorContactPhone", label: "Contact #", minwidth: 150 },
+  { id: "inStock", label: "In Stock?", minwidth: 150 },
+  { id: "partCost", label: "Part Cost", minwidth: 150 },
   { id: "totalCost", label: "Total Cost", minwidth: 150 },
   { id: "customerCost", label: "Customer Cost", minwidth: 150 },
 ];
 
 const printColumns = [
   { id: "quantity", label: "Qty", align: "left" },
-  { id: "description", label: "Desc", align: "left" },
+  { id: "partDescription", label: "Desc", align: "left" },
   { id: "partNumber", label: "Part #", align: "left" },
-  { id: "vendor", label: "Vendor", align: "left" },
-  { id: "contact", label: "Contact", align: "left" },
-  { id: "contanctPhone", label: "Contact #", align: "left" },
-  { id: "stock", label: "In Stock?", align: "left" },
-  { id: "cost", label: "Part Cost", align: "left" },
+  { id: "partVendor", label: "Vendor", align: "left" },
+  { id: "vendorContact", label: "Contact", align: "left" },
+  { id: "vendorContactPhone", label: "Contact #", align: "left" },
+  { id: "inStock", label: "In Stock?", align: "left" },
+  { id: "partCost", label: "Part Cost", align: "left" },
   { id: "totalCost", label: "Total Cost", align: "left" },
   { id: "customerCost", label: "Cust Cost", align: "left" },
 ];
@@ -154,23 +154,25 @@ const PartsList = ({ openEditPartModal, openAddPartModal, parts }) => {
                         {part.quantity}
                       </StyledTableCellPrint>
                       <StyledTableCellPrint>
-                        {part.description}
+                        {part.partDescription}
                       </StyledTableCellPrint>
                       <StyledTableCellPrint>
                         {part.partNumber}
                       </StyledTableCellPrint>
-                      <StyledTableCellPrint>{part.vendor}</StyledTableCellPrint>
                       <StyledTableCellPrint>
-                        {part.contact}
+                        {part.partVendor}
                       </StyledTableCellPrint>
                       <StyledTableCellPrint>
-                        {part.contactPhone}
+                        {part.vendorContact}
+                      </StyledTableCellPrint>
+                      <StyledTableCellPrint>
+                        {part.vendorContactPhone}
                       </StyledTableCellPrint>
                       <StyledTableCellPrint>
                         {part.inStock}
                       </StyledTableCellPrint>
                       <StyledTableCellPrint>
-                        {currencyFormat(part.cost)}
+                        {currencyFormat(part.partCost)}
                       </StyledTableCellPrint>
                       <StyledTableCellPrint>
                         {currencyFormat(part.totalCost)}
@@ -228,14 +230,16 @@ const PartsList = ({ openEditPartModal, openAddPartModal, parts }) => {
                       onClick={() => getPartAndOpenModal(part, index)}
                     >
                       <StyledTableCell>{part.quantity}</StyledTableCell>
-                      <StyledTableCell>{part.description}</StyledTableCell>
+                      <StyledTableCell>{part.partDescription}</StyledTableCell>
                       <StyledTableCell>{part.partNumber}</StyledTableCell>
-                      <StyledTableCell>{part.vendor}</StyledTableCell>
-                      <StyledTableCell>{part.contact}</StyledTableCell>
-                      <StyledTableCell>{part.contactPhone}</StyledTableCell>
+                      <StyledTableCell>{part.partVendor}</StyledTableCell>
+                      <StyledTableCell>{part.vendorContact}</StyledTableCell>
+                      <StyledTableCell>
+                        {part.vendorContactPhone}
+                      </StyledTableCell>
                       <StyledTableCell>{part.inStock}</StyledTableCell>
                       <StyledTableCell>
-                        {currencyFormat(part.cost)}
+                        {currencyFormat(part.partCost)}
                       </StyledTableCell>
                       <StyledTableCell>
                         {currencyFormat(part.totalCost)}
@@ -252,7 +256,7 @@ const PartsList = ({ openEditPartModal, openAddPartModal, parts }) => {
           <Grid
             container
             alignItems="flex-start"
-            justify="flex-end"
+            justifyContent="flex-end"
             direction="row"
           >
             <Button

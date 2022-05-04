@@ -24,6 +24,19 @@ export const currencyFormat = (value) => {
     return formatter.format(newNumber);
   }
 
+  export const toControlledMarkUp = (amount, markUp) => {
+    let number = parseFloat(amount).toFixed(2);
+    let newNumber = currency(number).multiply(markUp);
+    return formatter.format(newNumber);
+  }
+
+  export const toControlledMarkUpTotal = (amount, markUp, quantity) => {
+    let number = parseFloat(amount).toFixed(2);
+    let markedUpNumber = currency(number).multiply(markUp);
+    let totalNumber = markedUpNumber.multiply(quantity)
+    return formatter.format(totalNumber);
+  }
+
   export const toResFlatRate = (partCost, partLabor) => {
     let number = parseFloat(partCost).toFixed(2);
     let markUpNumber = currency(number).multiply(1.75);

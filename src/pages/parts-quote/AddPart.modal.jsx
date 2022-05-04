@@ -53,28 +53,29 @@ const AddPart = ({
 }) => {
   const classes = useStyles();
 
+  //all wrong
   const [quantity, setQuantity] = useState(0);
-  const [description, setDescription] = useState("");
+  const [partDescription, setPartDescription] = useState("");
   const [partNumber, setPartNumber] = useState("");
-  const [vendor, setVendor] = useState("");
-  const [contact, setContact] = useState("");
-  const [contactPhone, setContactPhone] = useState("");
+  const [partVendor, setPartVendor] = useState("");
+  const [vendorContact, setVendorContact] = useState("");
+  const [vendorContactPhone, setVendorContactPhone] = useState("");
   const [inStock, setInStock] = useState("");
-  const [cost, setCost] = useState(0.0);
-  const [markUp, setMarkUp] = useState(1.75);
+  const [partCost, setPartCost] = useState(0.0);
+  const [partMarkUp, setPartMarkUp] = useState(1.75);
 
   const onSubmitNewPart = (e) => {
     e.preventDefault();
     const newPart = {
       quantity,
-      description,
+      partDescription,
       partNumber,
-      vendor,
-      contact,
-      contactPhone,
+      partVendor,
+      vendorContact,
+      vendorContactPhone,
       inStock,
-      cost,
-      markUp,
+      partCost,
+      partMarkUp,
     };
     console.log(newPart);
     addPartToPartsList(newPart);
@@ -115,8 +116,8 @@ const AddPart = ({
               <Grid item xs={6}>
                 <TextField
                   label="Description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  value={partDescription}
+                  onChange={(e) => setPartDescription(e.target.value)}
                   margin="normal"
                   fullWidth
                   required
@@ -134,8 +135,8 @@ const AddPart = ({
               <Grid item xs={6}>
                 <TextField
                   label="Vendor"
-                  value={vendor}
-                  onChange={(e) => setVendor(e.target.value)}
+                  value={partVendor}
+                  onChange={(e) => setPartVendor(e.target.value)}
                   margin="normal"
                   fullWidth
                   required
@@ -144,8 +145,8 @@ const AddPart = ({
               <Grid item xs={6}>
                 <TextField
                   label="Vendor Contact"
-                  value={contact}
-                  onChange={(e) => setContact(e.target.value)}
+                  value={vendorContact}
+                  onChange={(e) => setVendorContact(e.target.value)}
                   margin="normal"
                   fullWidth
                 />
@@ -153,8 +154,8 @@ const AddPart = ({
               <Grid item xs={6}>
                 <TextField
                   label="Vendor Phone Number"
-                  value={contactPhone}
-                  onChange={(e) => setContactPhone(e.target.value)}
+                  value={vendorContactPhone}
+                  onChange={(e) => setVendorContactPhone(e.target.value)}
                   margin="normal"
                   fullWidth
                 />
@@ -174,8 +175,8 @@ const AddPart = ({
                   <InputLabel htmlFor="part-cost-input">Part Cost</InputLabel>
                   <Input
                     id="part-cost-input"
-                    value={cost}
-                    onChange={(e) => setCost(e.target.value)}
+                    value={partCost}
+                    onChange={(e) => setPartCost(e.target.value)}
                     fullWidth
                     startAdornment={
                       <InputAdornment position="start">$</InputAdornment>
@@ -186,8 +187,8 @@ const AddPart = ({
               <Grid item xs={6}>
                 <TextField
                   label="Mark Up"
-                  value={markUp}
-                  onChange={(e) => setMarkUp(e.target.value)}
+                  value={partMarkUp}
+                  onChange={(e) => setPartMarkUp(e.target.value)}
                   margin="normal"
                   fullWidth
                   InputProps={{
@@ -232,15 +233,3 @@ const AddPart = ({
 };
 
 export default AddPart;
-
-// <TextField
-// label="Part Cost"
-// value={cost}
-// onChange={(e) => setCost(e.target.value)}
-// inputProps={{ tabIndex: "8" }}
-// margin="normal"
-// fullWidth
-// startAdornment={
-//   <InputAdornment position="start">$</InputAdornment>
-//}
-// />

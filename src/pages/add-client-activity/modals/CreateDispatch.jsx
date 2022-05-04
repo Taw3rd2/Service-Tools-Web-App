@@ -26,6 +26,8 @@ import {
   selectTechnicianList,
 } from "../../../redux/technicians/technician.selectors";
 
+import { toCurrency } from "../../../utils/currencyUtils";
+
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -78,6 +80,8 @@ const useStyles = makeStyles((theme) => ({
 
 const CreateDispatch = ({
   client,
+  invoiceData,
+  invoiceId,
   isCreateDispatchModalOpen,
   closeCreateDispatchModal,
   dispatchers,
@@ -92,6 +96,8 @@ const CreateDispatch = ({
   dispatchCreationSuccessIndicator,
 }) => {
   const classes = useStyles();
+
+  const localInvoiceId = invoiceId !== undefined ? invoiceId : "";
 
   const [start, setStart] = useState(setDateToZeroHours(new Date()));
   const [leadSource, setLeadSource] = useState("PC");
@@ -121,10 +127,18 @@ const CreateDispatch = ({
   const [timeAlotted, setTimeAlotted] = useState("1.5");
   const [techLead, setTechLead] = useState("");
   const [techHelper, setTechHelper] = useState("NONE");
-  const [payment, setPayment] = useState("COD");
-  const [notes, setNotes] = useState("");
+  const [payment, setPayment] = useState("C.O.D.");
+  const [notes, setNotes] = useState(
+    invoiceData
+      ? `Collect Balance Due: ${toCurrency(invoiceData.balanceDue.amount)}`
+      : ""
+  );
   const [timeOfDay, setTimeOfDay] = useState("Anytime");
-  const [jobNumber, setJobNumber] = useState("");
+  const [jobNumber, setJobNumber] = useState(
+    invoiceData
+      ? `${invoiceData.invoiceNumberPrefix}${invoiceData.userCreatedInvoiceNumber}`
+      : ""
+  );
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -164,6 +178,7 @@ const CreateDispatch = ({
         status: "scheduled",
         jobNumber,
         customerId: client.id,
+        invoiceId: localInvoiceId,
       };
       addEventStart(newDispatch);
       dispatchCreationSuccessIndicator();
@@ -203,6 +218,7 @@ const CreateDispatch = ({
         status: "scheduled",
         jobNumber,
         customerId: client.id,
+        invoiceId: localInvoiceId,
       };
 
       const newHelperDispatch = {
@@ -236,6 +252,7 @@ const CreateDispatch = ({
         status: "scheduled",
         jobNumber,
         customerId: client.id,
+        invoiceId: localInvoiceId,
       };
 
       addEventStart(newLeadDispatch);
@@ -584,11 +601,18 @@ const CreateDispatch = ({
                   inputProps={{ tabIndex: "19" }}
                 />
               </Grid>
+              {invoiceId && (
+                <Grid container item xs={4} justifyContent="center">
+                  <Button color="secondary" variant="contained" type="button">
+                    Invoice Attached
+                  </Button>
+                </Grid>
+              )}
             </Grid>
             <Grid
               container
               alignItems="flex-start"
-              justify="flex-end"
+              justifyContent="flex-end"
               direction="row"
             >
               <Button

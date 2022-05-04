@@ -17,9 +17,11 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    border: "1px solid black",
     minWidth: 275,
     width: "40%",
     maxHeight: 750,
+    backgroundColor: "#e6ebf2",
   },
   modal: {
     display: "flex",
@@ -29,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
   content: {
     height: 550,
     overflow: "auto",
-    border: "1px solid black",
   },
   paper: {
     cursor: "pointer",
@@ -73,7 +74,7 @@ const Dispatches = ({
     const unsubscribe = firebase
       .firestore()
       .collection("events")
-      .where("lastname", "==", `${client.lastname}`)
+      .where("customerId", "==", `${client.id}`)
       .onSnapshot(
         (snapshot) => {
           const newDispatches = [];
@@ -94,7 +95,7 @@ const Dispatches = ({
         }
       );
     return () => unsubscribe();
-  }, [client.lastname]);
+  }, [client.id]);
 
   return (
     <Modal
@@ -175,7 +176,7 @@ const Dispatches = ({
           <Grid
             container
             alignItems="flex-start"
-            justify="flex-end"
+            justifyContent="flex-end"
             direction="row"
           >
             <Button
